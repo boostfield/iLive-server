@@ -16,7 +16,6 @@ var _ = require('lodash'),
 /**
  * 供移动端调用的注册接口，会完成以下任务：
  *  生成token
- *  自动添加环信客服为好友
  *  在未设置昵称的情况下把昵称设为 “用户”+用户名的形式，如：用户18513029307
  *  通过该接口创建的用户初始权限为"user"
  */
@@ -26,13 +25,12 @@ exports.signUpWithPhone = function (req, res) {
 
     // Init Variables
     var user = new User(req.body);
-
     var checkResult = User.checkArgument(user);
     if (checkResult.statusCode !== 0) {
         return res.status(200).jsonp(checkResult);
     }
 
-    // Add missing user fields
+    // 默认provider类型为local
     user.provider = 'local';
     if (!user.username) {
         user.username = user.phoneNumber;
@@ -45,15 +43,8 @@ exports.signUpWithPhone = function (req, res) {
     if (checkArgumentResult.statusCode !== 0) {
         return res.status(200).jsonp(checkArgumentResult);
     }
-
-    user.guid = tokenHelper.generateGuid();
-    user.accessToken = tokenHelper.getNewToken(user.id.toString());
     async.waterfall([
             function (cb) {
-                user.friends = [];
-                //add easemod customer service and feedback service
-                user.friends.push({'user': config.easemod.customerServiceId});
-                user.friends.push({'user': config.easemod.feedbackServiceId});
                 user.save(function (err, user) {
                     if (err) {
                         cb({

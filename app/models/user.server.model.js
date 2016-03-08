@@ -65,9 +65,6 @@ var UserSchema = new Schema({
         default: '',
         validate: [validateLocalStrategyPassword, 'Password should be longer']
     },
-    guid: {
-        type: String
-    },
     salt: {
         type: String
     },

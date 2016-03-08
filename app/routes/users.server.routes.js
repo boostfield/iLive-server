@@ -10,7 +10,7 @@ module.exports = function (app) {
     var users = require('../../app/controllers/users.server.controller');
     // Setting up the users profile api
     app.route('/users/detect-username').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.detectUsername);
-    app.route('/users/me').get(users.authToken, users.hasAuthorization(['user']), users.me);
+    app.route('/users/me').get(users.hasAuthorization(['user']), users.me);
     app.route('/users/search').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.search);
     app.route('/users/:userId([A-Za-z0-9]{24})').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.getUserInfo);
     app.route('/users/users-brief-info').post(users.authToken, users.hasAuthorization(['visitor', 'user']), users.getUsersBriefInfoByUsernames);
