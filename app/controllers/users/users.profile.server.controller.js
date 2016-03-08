@@ -50,16 +50,9 @@ exports.update = function (req, res) {
  * 获取我的个人信息。
  */
 exports.me = function (req, res) {
-    var me = JSON.parse(JSON.stringify(req.user));
-    //删除与地理位置相关的数据。
-    delete me.currentLocation;
-    delete me.currentScenicSpot;
-    delete me.locationLastUpdated;
-    delete me.accessToken;
-
     return res.json({
         statusCode: statusCode.SUCCESS.statusCode,
-        user: me
+        user: req.user
     });
 };
 /**

@@ -3700,9 +3700,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
                     $scope.error = response.message;
                 } else {
                     $scope.authentication.user = response.user;
-                    if(response.user.roles.indexOf('tenant') !== -1){
-                        return $location.path('/my-activity-list');
-                    }
                     $location.path('/');
                 }
 

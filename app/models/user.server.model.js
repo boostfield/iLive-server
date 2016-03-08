@@ -68,8 +68,6 @@ var UserSchema = new Schema({
     salt: {
         type: String
     },
-    accessToken: String,
-    refreshToken: String,
     provider: {
         type: String,
         required: 'Provider is required'
@@ -83,8 +81,6 @@ var UserSchema = new Schema({
         }],
         default: ['user']
     },
-    album: [String],
-    specificSign: String,
     address: String,
     gender: {
         type: String,

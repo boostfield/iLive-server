@@ -112,30 +112,11 @@ exports.signinWeb = function (req, res, next) {
                 if (err) {
                     res.status(200).jsonp(err);
                 } else {
-                    var newToken = tokenHelper.getNewToken(user._id.toString());
-                    User.findOne({_id: user._id}, '-__v -salt -friendsCategory -password')
-                        .exec(function (err, authenticatedUser) {
-                            if (err) {
-                                return res.jsonp({
-                                    statusCode: statusCode.DATABASE_ERROR.statusCode,
-                                    message: err.message
-                                });
-                            }
-                            authenticatedUser.accessToken = newToken;
-                            authenticatedUser.save(function (err) {
-                                if (err) {
-                                    return res.jsonp({
-                                        statusCode: statusCode.DATABASE_ERROR.statusCode,
-                                        message: err.message
-                                    });
-                                } else {
-                                    res.jsonp({
-                                        statusCode: statusCode.SUCCESS.statusCode,
-                                        user: user
-                                    });
-                                }
-                            });
-                        });
+                    res.jsonp({
+                        statusCode: statusCode.SUCCESS.statusCode,
+                        user: user
+                    });
+
                 }
             });
         }
