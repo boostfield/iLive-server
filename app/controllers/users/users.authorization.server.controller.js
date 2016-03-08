@@ -9,69 +9,16 @@ var _ = require('lodash'),
     User = mongoose.model('User'),
     config = require('../../../config/config'),
     errorHandler = require('../errors.server.controller'),
-    statusCode = require('../../utils/status-code'),
-    tokenHelper = require('../../utils/token-helper');
+    statusCode = require('../../utils/status-code');
 
 /**
  * Require login routing middleware
  */
 exports.requiresLogin = function (req, res, next) {
     if (!req.isAuthenticated()) {
-        return res.status(200).jsonp({
-            statusCode: statusCode.LOGIN_REQUIRED.statusCode,
-            message: statusCode.LOGIN_REQUIRED.message
-        });
+        return res.status(200).jsonp(statusCode.LOGIN_REQUIRED);
     }
     next();
-};
-
-/**
- * 检验Token的有效性，并根据token获取用户信息，供后续的请求使用。
- */
-exports.authToken = function (req, res, next) {
-    var token = (req.body && req.body.accessToken) ||
-        (req.query && req.query.accessToken) || req.get('accessToken');
-    if (!token) {
-        return next();
-    }
-    try {
-        var decoded = tokenHelper.decodeToken(token);
-        //检验token是否过期，并检验解析出得时间戳类型是否为number
-        if (((typeof decoded.exp) !== 'number') || (decoded.exp <= Date.now())) {
-            return res.status(200).jsonp(statusCode.TOKEN_EXPIRED);
-        }
-        User.findOne({accessToken: token}, {
-            displayName: 1,
-            username: 1,
-            roles: 1,
-            gender: 1,
-            phoneNumber: 1,
-            avatarUrl: 1,
-            birthday: 1
-        })
-            .exec(function (err, user) {
-                if (user) {
-                    req.user = user;
-                    req.accessToken = token;
-                    next();
-                } else {
-                    return res.status(200).jsonp(statusCode.INVALID_TOKEN);
-                }
-            });
-    } catch (err) {
-        return res.status(200).jsonp(statusCode.INVALID_TOKEN);
-    }
-};
-/**
- * 获取token的剩余有效时间（单位：ms）
- */
-exports.getTokenExpiredTime = function (req, res) {
-    var expireTime = tokenHelper.decodeToken(req.accessToken).exp;
-    var expireAfter = expireTime - Date.now();
-    return res.jsonp({
-        statusCode: statusCode.SUCCESS.statusCode,
-        expireAfter: expireAfter
-    });
 };
 
 /**
@@ -104,7 +51,7 @@ exports.hasAuthorization = function (roles) {
         if (roles.indexOf('visitor') !== -1) {
             return next();
         } else if (!req.user) {
-            return res.status(200).jsonp(statusCode.TOKEN_REQUIRED);
+            return res.status(200).jsonp(statusCode.LOGIN_REQUIRED);
         }
         if (_.intersection(req.user.roles, roles).length) {
             return next();

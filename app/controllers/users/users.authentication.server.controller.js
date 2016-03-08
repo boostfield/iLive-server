@@ -9,7 +9,6 @@ var _ = require('lodash'),
     passport = require('passport'),
     User = mongoose.model('User'),
     config = require('../../../config/config'),
-    tokenHelper = require('../../utils/token-helper'),
     async = require('async'),
     statusCode = require('../../utils/status-code');
 
@@ -90,9 +89,7 @@ exports.detectUsername = function (req, res) {
         } else if (!user) {
             return res.jsonp(statusCode.SUCCESS);
         } else {
-            User.findUniqueUsername(req.query.username, '0', function (possibleUsername) {
-                return res.jsonp(statusCode.USERNAME_TAKEN);
-            });
+            return res.jsonp(statusCode.USERNAME_TAKEN);
         }
     });
 };
@@ -116,7 +113,6 @@ exports.signinWeb = function (req, res, next) {
                         statusCode: statusCode.SUCCESS.statusCode,
                         user: user
                     });
-
                 }
             });
         }
@@ -148,11 +144,9 @@ exports.signIn = function (req, res, next) {
                         message: err.message
                     });
                 } else {
-                    var newToken = tokenHelper.getNewToken(authenticatedUser.id);
                     if (req.body.jpushRegistrationId) {
                         authenticatedUser.jpushRegistrationId = req.body.jpushRegistrationId;
                     }
-                    authenticatedUser.accessToken = newToken;
                     authenticatedUser.save(function (err) {
                         if (err) {
                             return res.status(200).jsonp({
@@ -244,11 +238,9 @@ exports.thirdPartySignin = function (req, res) {
                     }
                 });
             } else {
-                var newToken = tokenHelper.getNewToken(user.id);
                 if (req.body.jpushRegistrationId) {
                     user.jpushRegistrationId = req.body.jpushRegistrationId;
                 }
-                user.accessToken = newToken;
                 user.save(function (err) {
                     if (err) {
                         return res.status(200).jsonp({
@@ -266,41 +258,18 @@ exports.thirdPartySignin = function (req, res) {
         });
 };
 
-exports.getNewToken = function (req, res) {
-    var newToken = tokenHelper.getNewToken(req.user._id.toString());
-    User.findOneAndUpdate({_id: req.user._id}, {$set: {accessToken: newToken}}, function (err) {
-        if (err) {
-            return res.status(200).jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: err.message
-            });
-        }
-        return res.jsonp({
-            statusCode: statusCode.SUCCESS.statusCode,
-            newToken: newToken
-        });
-    });
-};
-
 /**
- * Signout with mobile terminal
+ * 退出登录。
  */
 exports.signout = function (req, res) {
     req.logout();
-    res.jsonp({
-        statusCode: statusCode.SUCCESS.statusCode,
-        message: statusCode.SUCCESS.message
-    });
-};
 
-/**
- * Signout with web.
- * @param req
- * @param res
- */
-exports.signoutWeb = function (req, res) {
-    req.logout();
-    res.redirect('/');
+    //如果是移动端退出则返回json，如果是
+    if (req.headers['user-agent'].toLowerCase().indexOf(config.clientUA) !== -1) {
+        res.jsonp(statusCode.SUCCESS);
+    } else {
+        res.redirect('/');
+    }
 };
 
 /**

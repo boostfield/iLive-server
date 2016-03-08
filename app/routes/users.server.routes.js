@@ -9,17 +9,17 @@ module.exports = function (app) {
     // User Routes
     var users = require('../../app/controllers/users.server.controller');
     // Setting up the users profile api
-    app.route('/users/detect-username').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.detectUsername);
-    app.route('/users/me').get(users.hasAuthorization(['user']), users.me);
-    app.route('/users/search').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.search);
-    app.route('/users/:userId([A-Za-z0-9]{24})').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.getUserInfo);
-    app.route('/users/users-brief-info').post(users.authToken, users.hasAuthorization(['visitor', 'user']), users.getUsersBriefInfoByUsernames);
-    app.route('/users').put(users.authToken, users.hasAuthorization(['user']), users.update);
-    app.route('/users').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.list);
-    app.route('/users/:username([0-9]{11})').get(users.authToken, users.hasAuthorization(['user']), users.getUserInfoByUsername);
+    app.route('/users/detect-username').get(users.detectUsername);
+    app.route('/users/me').get(users.requiresLogin, users.me);
+    app.route('/users/search').get(users.search);
+    app.route('/users/:userId([A-Za-z0-9]{24})').get(users.getUserInfo);
+    app.route('/users/users-brief-info').post(users.hasAuthorization(['visitor', 'user']), users.getUsersBriefInfoByUsernames);
+    app.route('/users').put(users.requiresLogin, users.update);
+    app.route('/users').get(users.list);
+    app.route('/users/:username([0-9]{11})').get(users.requiresLogin, users.getUserInfoByUsername);
 
     // Setting up the users password api
-    app.route('/users/password').post(users.authToken, users.hasAuthorization(['user', 'admin']), users.changePassword);
+    app.route('/users/password').post(users.hasAuthorization(['user', 'admin']), users.changePassword);
     app.route('/auth/forgot').post(users.forgot);
     app.route('/auth/reset/:token').get(users.validateResetToken);
     app.route('/auth/reset/:token').post(users.reset);
@@ -31,9 +31,7 @@ module.exports = function (app) {
     app.route('/auth/signin').post(users.signIn);
     app.route('/auth/signin-web').post(users.signinWeb);
     app.route('/auth/signout').get(users.signout);
-    app.route('/auth/signout-web').get(users.signoutWeb);
-    app.route('/auth/token-expire-time').get(users.authToken, users.hasAuthorization(['user']), users.getTokenExpiredTime);
-    app.route('/auth/refresh-token').get(users.authToken, users.hasAuthorization(['user']), users.getNewToken);
+    app.route('/auth/signout-web').get(users.signout);
 
     app.route('/auth/qq').get(passport.authenticate('qq'));
     app.route('/auth/qq/callback').get(users.oauthCallback('qq'));
@@ -45,6 +43,6 @@ module.exports = function (app) {
     app.route('/auth/3rd-party/login').post(users.thirdPartySignin);
 
     //administration interface.
-    app.route('/change-password-by-admin').post(users.authToken, users.hasAuthorization(['super-admin']), users.changePasswordByAdmin);
-    app.route('/add-permission').post(users.authToken, users.hasAuthorization(['super-admin']), users.addPermission);
+    app.route('/change-password-by-admin').post(users.hasAuthorization(['super-admin']), users.changePasswordByAdmin);
+    app.route('/add-permission').post(users.hasAuthorization(['super-admin']), users.addPermission);
 };

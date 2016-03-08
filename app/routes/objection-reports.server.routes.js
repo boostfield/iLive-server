@@ -6,11 +6,11 @@ module.exports = function(app) {
 
 	// Objection reports Routes
 	app.route('/user/:userId/report')
-		.post(users.authToken, objectionReports.create);
+		.post(users.requiresLogin, objectionReports.create);
     app.route('/content/report')
-        .post(users.authToken, objectionReports.create);
+        .post(users.requiresLogin, objectionReports.create);
     app.route('/objection-reports')
-        .get(users.authToken, users.hasAuthorization(['admin']), objectionReports.list);
+        .get(users.hasAuthorization(['admin']), objectionReports.list);
 
     app.route('/objection-reports/:objectionReportId')
 		.get(objectionReports.read)

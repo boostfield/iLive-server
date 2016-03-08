@@ -12,17 +12,16 @@ var _ = require('lodash'),
 
 
 /**
- * Update user details
+ * 更新用户信息。
  */
 exports.update = function (req, res) {
-    // Init Variables
     var user = req.user;
 
-    // For security measurement we remove the roles from the req.body object
+    //删除body体中的敏感信息和不可修改的信息。
     delete req.body.roles;
     delete req.body.username;
     delete req.body.password;
-    delete req.body.currentLocation;
+
     var updatedKeys = req.body;
     // Merge existing user
     user = _.extend(user, req.body);
