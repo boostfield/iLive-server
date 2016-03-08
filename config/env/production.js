@@ -55,66 +55,16 @@ module.exports = {
         accessTokenExpireAfterDays: 168,
         refreshTokenExpireAfterDays: 30
     },
-    qiniu: {
-        accessKey: '5_WzphI0csKwzdgUjKEJYWYUjgCVI4sZaeT9E6PM',
-        secretKey: 'cMkTZJnXcu9gRnBdK8MLKlRXRhl0_qh-CCnV1yTG',
-        testBucketName: 'sail-test-space',
-        callbackUrl: 'https://api.duriantrip.cn/uploaded-callback',
-        userCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&type=$(x:type)',
-        returnBody: 'name=$(fname)&hash=$(etag)&guid=$(x:id)&location=$(x:location)',
-        publicBucketUrl: 'http://7xijtn.com1.z0.glb.clouddn.com/',
-        //expire time (days)
-        expireSpan: 5,
-
-        publicBucketName: 'public-scenic-data',
-        cityImageCallbackUrl: 'https://api.duriantrip.cn/addCityImage',
-        citiesCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)',
-
-        scenicSpotCallbackUrl: 'https://api.duriantrip.cn/addScenicSpotImage',
-        scenicSpotCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&userId=$(x:userId)&type=$(x:type)',
-
-        scenicSpotByMobileCallbackUrl: 'https://api.duriantrip.cn/addScenicSpotImageByMobile',
-        scenicSpotByMobileCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&userId=$(x:userId)&type=$(x:type)&pictureMessage=$(x:pictureMessage)',
-        //picture
-        pictureCallbackUrl: 'https://api.duriantrip.cn/addPicture',
-        pictureCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&scenicSpotId=$(x:scenicSpotId)&pictureMessage=$(x:pictureMessage)',
-
-        bannerCallbackUrl: 'https://api.duriantrip.cn/add-banner-image',
-        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)',
-
-        taskListCallbackUrl: 'https://api.duriantrip.cn/set-task-list-url',
-        taskListCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&taskListId=$(x:taskListId)',
-
-        taskCallbackUrl: 'https://api.duriantrip.cn/addTaskPicture',
-        taskCallbackBody: 'key=$(key)&hash=$(etag)&taskId=$(x:taskId)'
-    },
-
-    easemod: {
-        signUpUrl: 'a1.easemob.com',
-        org: 'siyee',
-        appName: 'linger',
-        //客服id，客服为本地注册的用户。且已在环信客服系统中注册为客服。
-        customerServiceId: '559242a8227b4fd97ebfcdfe',
-        feedbackServiceId: '55923f82227b4fd97ebfcdfc'
-    },
-    liulianAdmin: '5548331d9b9da13cd07b714d',
     mongoose: {
         debugFlag: false
     },
-
-    activityAndroidOff: true,
-    activityiOSOff: true,
-    //Date设置规则：0=1月；10=11月
-    activityStartDate: new Date(2015, 10, 31, 20, 0, 0),
-    activityEndDate: new Date(2015, 10, 31, 20, 30, 0),
-
     emailAddress: {
         host: 'smtp.ym.163.com',
         bugSender: {
             account: 'bug-reporter@siyee.org',
             pass: 'siyeeorg'
         },
-        adminEmail: '609734312@qq.com,erbing22@126.com'
+        adminEmail: '609734312@qq.com'
     },
     currentClientVersion: '2.0.1'
 };

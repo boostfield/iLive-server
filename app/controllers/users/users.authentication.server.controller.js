@@ -8,92 +8,11 @@ var _ = require('lodash'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     User = mongoose.model('User'),
-    Task = mongoose.model('Task'),
     config = require('../../../config/config'),
     tokenHelper = require('../../utils/token-helper'),
-    https = require('https'),
-    rest = require('restler'),
     async = require('async'),
-    request = require('request'),
-    qiniuController = require('../qiniu.server.controller'),
     statusCode = require('../../utils/status-code');
 
-/**
- * 注册环信接口，将本地的用户系统注册到环信。在注册用户时使用。
- * @param username
- * @param password
- * @param callback
- */
-var signUpEaseChat = function (username, password, callback) {
-    password = password ? password : username;
-    var requestBody = {
-        username: username,
-        password: password
-    };
-    request('https://' + config.easemod.signUpUrl + '/' +
-        config.easemod.org + '/' + config.easemod.appName + '/users',
-        {
-            json: true,
-            method: 'POST',
-            body: requestBody
-        },
-        function (err, response, body) {
-            callback(err, response, body);
-        });
-};
-
-/**
- * 创建操作员（系统信息录入人员。）的接口，供管理员在web端调用。
- */
-exports.createEditor = function (req, res) {
-    var user = new User(req.body);
-    user.provider = 'local';
-    if (!user.displayName) {
-        user.displayName = user.username;
-    }
-    user.guid = tokenHelper.generateGuid();
-    user.accessToken = tokenHelper.getNewToken(user.id.toString());
-    user.roles = ['user', 'editor'];
-    user.save(function (err, user) {
-        if (err) {
-            return res.status(200).jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: err.message
-            });
-        } else {
-            return res.jsonp({
-                statusCode: statusCode.SUCCESS.statusCode,
-                username: user.username
-            });
-        }
-    });
-};
-/**
- * 创建操作员（系统信息录入人员。）的接口，供管理员在web端调用。
- */
-exports.createTenant = function (req, res) {
-    var user = new User(req.body);
-    user.provider = 'local';
-    if (!user.displayName) {
-        user.displayName = user.username;
-    }
-    user.guid = tokenHelper.generateGuid();
-    user.accessToken = tokenHelper.getNewToken(user.id.toString());
-    user.roles = ['user', 'tenant'];
-    user.save(function (err, user) {
-        if (err) {
-            return res.status(200).jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: err.message
-            });
-        } else {
-            return res.jsonp({
-                statusCode: statusCode.SUCCESS.statusCode,
-                username: user.username
-            });
-        }
-    });
-};
 /**
  * 供移动端调用的注册接口，会完成以下任务：
  *  生成token
@@ -292,9 +211,7 @@ function createThirdPartyUser(userInfo, cb) {
             Math.floor((Math.random() * 100000000));
     }
     user.accessToken = tokenHelper.getNewToken(user.id.toString());
-    user.guid = tokenHelper.generateGuid();
     user.provider = userInfo.type;
-    user.friends = [];
     user.thirdPartyAccount = [];
     user.thirdPartyAccount.push({
         accountType: userInfo.type,
@@ -302,19 +219,6 @@ function createThirdPartyUser(userInfo, cb) {
         accountAvatar: userInfo.avatar
 
     });
-    //add easemod customer service and feedback service
-    user.friends.push({'user': config.easemod.customerServiceId});
-    user.friends.push({'user': config.easemod.feedbackServiceId});
-
-    if (userInfo.avatar) {
-        var avatarUrl = 'jpeg/avatar/' + userInfo.uid + '/' + Date.now().toString();
-        user.avatarUrl = avatarUrl;
-        qiniuController.transferPicFromUrl(userInfo.avatar, avatarUrl, function (err, result) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    }
     user.save(function (err, user) {
         if (err) {
             console.log(err);
@@ -555,42 +459,4 @@ exports.removeOAuthProvider = function (req, res, next) {
             }
         });
     }
-};
-
-
-exports.signUpWithWeixin = function (req, res) {
-    //TODO
-    res.jsonp({body: req.body});
-};
-
-exports.removeTenant = function (req, res) {
-    Task.findOne({'belongToUser': req.params.userId, 'isDeleted': {$ne: true}}).exec(function (err, task) {
-        if (err) {
-            return res.status(200).jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: 'delete user err: find task belong to this user err.'
-            });
-        } else {
-            if (task) {
-                return res.status(200).jsonp({
-                    statusCode: statusCode.TASK_BOUND.statusCode,
-                    task: task
-                });
-            } else {
-                User.remove({'_id': req.params.userId}).exec(function (err) {
-                    if (err) {
-                        return res.status(200).jsonp({
-                            statusCode: statusCode.DATABASE_ERROR.statusCode,
-                            message: 'delete user err.'
-                        });
-                    } else {
-                        return res.status(200).jsonp({
-                            statusCode: statusCode.SUCCESS.statusCode,
-                            message: 'delete user success'
-                        });
-                    }
-                });
-            }
-        }
-    });
 };

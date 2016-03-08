@@ -10,7 +10,6 @@ var _ = require('lodash'),
     config = require('../../../config/config'),
     errorHandler = require('../errors.server.controller'),
     statusCode = require('../../utils/status-code'),
-    request = require('request'),
     tokenHelper = require('../../utils/token-helper');
 
 /**
@@ -72,44 +71,6 @@ exports.getTokenExpiredTime = function (req, res) {
     return res.jsonp({
         statusCode: statusCode.SUCCESS.statusCode,
         expireAfter: expireAfter
-    });
-};
-/**
- * 集成环信做用户迁移时所调用的接口，将所有未注册至环信的用户注册至环信。
- */
-exports.refreshEaseMobAccount = function (req, res) {
-    User.find(function (err, users) {
-        var count = 0;
-        async.whilst(function () {
-                return count < users.length;
-            },
-            function (callback) {
-                var requestBody = {
-                    username: users[count].username,
-                    password: users[count].username
-                };
-                request('https://' + config.easemod.signUpUrl + '/' +
-                    config.easemod.org + '/' + config.easemod.appName + '/users',
-                    {
-                        json: true,
-                        method: 'POST',
-                        body: requestBody
-                    },
-                    function (err, response, body) {
-                        count++;
-                        //满足环信每分钟最多注册30个用户的限制。
-                        setTimeout(callback, 3000);
-                    });
-            }, function (err) {
-                if (err) {
-                    return res.jsonp('error happend.');
-                } else {
-                    return res.jsonp({
-                        statusCode: statusCode.SUCCESS.statusCode,
-                        message: 'refresh success!'
-                    });
-                }
-            });
     });
 };
 

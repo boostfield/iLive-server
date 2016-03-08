@@ -48,7 +48,6 @@ var UserSchema = new Schema({
             sparse: true
         }
     },
-    jpushRegistrationId: String,
     avatarUrl: {
         type: String,
         default: 'img/default-avatar-icon.png'
@@ -108,13 +107,7 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    locationLastUpdated: {
-        type: Date
-    },
-    friendsCategory: {
-        type: Array,
-        default: ['normalFriend', 'blacklist']
-    },
+
     bonusPoint: {
         type: Number,
         default: 0
@@ -128,35 +121,6 @@ var UserSchema = new Schema({
         accountAvatar: String
     }],
 
-    friends: [{
-        user: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
-        remark: {
-            type: String,
-            default: ''
-        },
-        category: {
-            type: String,
-            default: 'Friends'
-        },
-        createdTime: {
-            type: Date,
-            default: Date.now
-        },
-        gender: {
-            type: String
-        }
-    }],
-    blackList: [{
-        type: Schema.ObjectId,
-        ref: 'User'
-    }],
-    currentLocation: {
-        index: '2dsphere',
-        type: [Number]
-    },
     /* For reset password */
     resetPasswordToken: {
         type: String
@@ -167,7 +131,6 @@ var UserSchema = new Schema({
 });
 
 
-//UserSchema.index({username:1,email:1},{sparse: true, unique: true});
 /**
  * Hook a pre save method to hash the password
  */
@@ -195,15 +158,6 @@ UserSchema.methods.hashPassword = function (password) {
  */
 UserSchema.methods.authenticate = function (password) {
     return this.password === this.hashPassword(password);
-};
-
-UserSchema.methods.inUserBlackList = function (user) {
-    for (var index = 0; index < user.blackList.length; index++) {
-        if (user.blackList[index].equals(this.id)) {
-            return true;
-        }
-    }
-    return false;
 };
 
 /**

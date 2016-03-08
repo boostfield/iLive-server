@@ -229,8 +229,8 @@ exports.changePasswordBySms = function (req, res) {
         return res.status(200).send(statusCode.PASSWORD_INVALID);
     }
     var isNewVersionStatus = false;
-    if(req.body.isNewVersionStatus){
-        isNewVersionStatus= true;
+    if (req.body.isNewVersionStatus) {
+        isNewVersionStatus = true;
     }
 
     smsUtil.authSms(req.body.phone, req.body.code, 86, req.body.platform, isNewVersionStatus, function (err, status) {

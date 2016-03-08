@@ -16,19 +16,7 @@ module.exports = function (app) {
     app.route('/users/users-brief-info').post(users.authToken, users.hasAuthorization(['visitor', 'user']), users.getUsersBriefInfoByUsernames);
     app.route('/users').put(users.authToken, users.hasAuthorization(['user']), users.update);
     app.route('/users').get(users.authToken, users.hasAuthorization(['visitor', 'user']), users.list);
-    app.route('/users/accounts').delete(users.authToken, users.removeOAuthProvider);
-    app.route('/users/created-scenicspots').get(users.authToken, users.getUserCreatedScenicSpotList);
     app.route('/users/:username([0-9]{11})').get(users.authToken, users.hasAuthorization(['user']), users.getUserInfoByUsername);
-    app.route('/users/:userId([A-Za-z0-9]{24})/created-scenicspots-by-mobile').get(users.authToken, users.getUserCreatedScenicSpotList);
-    app.route('/users/voted-scenicspots').get(users.authToken, users.hasAuthorization(['user']), users.getMyVotedScenicspots);
-    app.route('/users/updated-scenicspots-pictures').get(users.authToken, users.getPicturesByScenicSpots);
-    app.route('/users/:userId([A-Za-z0-9]{24})/updated-scenicspots-pictures').get(users.authToken, users.hasAuthorization(['user']), users.getPicturesByScenicSpots);
-    app.route('/users/scenic-spots/:scenicSpotId([A-Za-z0-9]{24})/updated-pictures').get(users.authToken, users.hasAuthorization(['user']), users.getUserUploadedPictureByScenicSpot);
-    app.route('/users/:userId([A-Za-z0-9]{24})/scenic-spots/:scenicSpotId([A-Za-z0-9]{24})/updated-pictures').get(users.authToken, users.getUserUploadedPictureByScenicSpot);
-    app.route('/users/update-location').post(users.authToken, users.hasAuthorization(['user']), users.updateLocation);
-    app.route('/tenants/search').get(users.authToken, users.hasAuthorization(['admin']), users.searchTenant);
-    app.route('/tenants/:userId([A-Za-z0-9]{24})/display-name').put(users.authToken, users.hasAuthorization(['admin']), users.updateTenantDisplayName);
-    app.route('/tenants/:userId([A-Za-z0-9]{24})').delete(users.authToken, users.hasAuthorization(['admin']), users.removeTenant);
 
     // Setting up the users password api
     app.route('/users/password').post(users.authToken, users.hasAuthorization(['user', 'admin']), users.changePassword);
@@ -54,25 +42,9 @@ module.exports = function (app) {
     app.route('/auth/weibo').get(passport.authenticate('weibo'));
     app.route('/auth/weibo/callback').get(users.oauthCallback('weibo'));
 
-    app.route('/auth/weixin').post(users.signUpWithWeixin);
     app.route('/auth/3rd-party/login').post(users.thirdPartySignin);
-
-    //Location related API
-    app.route('/users/near').get(users.authToken, users.hasAuthorization(['user']), users.findNearUser);
-    app.route('/users/near-by-location').get(users.authToken, users.hasAuthorization(['user']), users.findPeopleAroundByLocation);
-    app.route('/users/near-by-scenicspots').get(users.authToken, users.hasAuthorization(['user']), users.myNearByScenicSpot);
-    //User action API.
-    app.route('/users/:userId([A-Za-z0-9]{24})/created-scenicspots').get(users.authToken, users.getCreatedScenicSpotList);
-    app.route('/users/:userId([A-Za-z0-9]{24})/updated-scenicspots').get(users.authToken, users.getUpdatedScenicSpotList);
-
-    app.route('/scenic-spots/:scenicSpotId([A-Za-z0-9]{24})/share').get(users.shareScenicSpot);
 
     //administration interface.
     app.route('/change-password-by-admin').post(users.authToken, users.hasAuthorization(['super-admin']), users.changePasswordByAdmin);
     app.route('/add-permission').post(users.authToken, users.hasAuthorization(['super-admin']), users.addPermission);
-    app.route('/refresh-ease-mod-account').get(users.authToken, users.hasAuthorization(['super-admin']), users.refreshEaseMobAccount);
-    app.route('/users/editor').post(users.authToken, users.hasAuthorization(['admin']), users.createEditor);
-    app.route('/users/tenant').post(users.authToken, users.hasAuthorization(['admin']), users.createTenant);
-    app.route('/tenants').get(users.authToken, users.hasAuthorization(['admin']), users.getTenants);
-    app.route('/user-operation-recorders').get(users.authToken, users.hasAuthorization(['admin']), users.getUserOperationRecorders);
 };
