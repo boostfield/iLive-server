@@ -53,6 +53,7 @@ module.exports = {
     mongoose: {
         debugFlag: false
     },
+    clientUA: 'iLiving',
     iosClientDownloadUrl: 'https://itunes.apple.com/us/app/wan-xian-tan-suo-wei-zhi-hao/id1018136277?l=zh&ls=1&mt=8',
     androidClientDownloadUrl: 'http://www.playfresh.cn/product/playfresh.apk'
 };
