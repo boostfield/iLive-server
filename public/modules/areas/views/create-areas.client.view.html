@@ -1,0 +1,43 @@
+<section data-ng-controller="AreasController" ng-init="getCountries()">
+    <div class="page-header">
+        <h1>创建城市的区域</h1>
+    </div>
+    <div class="white-card">
+        <label class="control-label" for="name">所属城市：</label>
+        <div class="row">
+            <div class="col-md-4">
+                <select class="form-control" data-ng-model="country" ng-change="getProvinces()"
+                        ng-options="country.id as country.name for country in countries" option="country.id">
+                    <option value="contry.id">-- 请选择国家 --</option>
+                </select>
+            </div>
+            <div class="col-md-4" ng-if="provinces">
+                <select class="form-control" data-ng-model="newArea.province" ng-change="getCities()"
+                        ng-options="province.id as province.name for province in provinces" option="province.id">
+                    <option value="">-- 请选择省份/州 --</option>
+                </select>
+            </div>
+            <div class="col-md-4" ng-if="cities">
+                <select class="form-control" data-ng-model="newArea.city"
+                        ng-options="city.id as city.name for city in cities" option="city.id">
+                    <option value="">-- 请选择城市 --</option>
+                </select>
+            </div>
+        </div>
+        <label class="control-label" for="name">区域名：</label>
+        <div class="controls">
+            <input type="text" data-ng-model="newArea.name" id="name" class="form-control" placeholder="城市区域名"
+                   required>
+        </div>
+        </br>
+
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" ng-click="create()" value="创建区域">
+        </div>
+        <div data-ng-show="error" class="text-danger">
+            <strong data-ng-bind="error"></strong>
+        </div>
+
+    </div>
+</section>

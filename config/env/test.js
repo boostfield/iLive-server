@@ -1,105 +1,86 @@
 'use strict';
 
-var defaultEnvConfig = require('./default');
-
 module.exports = {
-  db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean-test',
-    options: {
-      user: '',
-      pass: ''
+    db: 'mongodb://localhost/jackfruit-server-test',
+    port: 3000,
+    app: {
+        title: 'jackfruit-server - Test Environment'
     },
-    // Enable mongoose debug mode
-    debug: process.env.MONGODB_DEBUG || false
-  },
-  log: {
-    // logging with Morgan - https://github.com/expressjs/morgan
-    // Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
-    format: process.env.LOG_FORMAT || 'combined',
-    options: {
-      // Stream defaults to process.stdout
-      // Uncomment/comment to toggle the logging to a log on the file system
-      stream: {
-        directoryPath: process.cwd(),
-        fileName: 'access.log',
-        rotatingLogs: { // for more info on rotating logs - https://github.com/holidayextras/file-stream-rotator#usage
-          active: false, // activate to use rotating logs 
-          fileName: 'access-%DATE%.log', // if rotating logs are active, this fileName setting will be used
-          frequency: 'daily',
-          verbose: false
+    qq: {
+        clientID: 101188618,
+        clientSecret: '4fdd0a816262da5905b676c8156454f3',
+        callbackURL: 'http://www.siyee.org:3000/auth/qq/callback'
+    },
+    weibo: {
+        clientID: 3727686665,
+        clientSecret: '65813cf612943d1db138333a2094e4ae',
+        callbackURL: 'http://www.siyee.org:3000/auth/weibo/callback'
+    },
+    mailer: {
+        from: process.env.MAILER_FROM || 'MAILER_FROM',
+        options: {
+            service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
+            auth: {
+                user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
+                pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
+            }
         }
-      }
-    }
-  },
-  port: process.env.PORT || 3001,
-  app: {
-    title: defaultEnvConfig.app.title + ' - Test Environment'
-  },
-  facebook: {
-    clientID: process.env.FACEBOOK_ID || 'APP_ID',
-    clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
-    callbackURL: '/api/auth/facebook/callback'
-  },
-  twitter: {
-    clientID: process.env.TWITTER_KEY || 'CONSUMER_KEY',
-    clientSecret: process.env.TWITTER_SECRET || 'CONSUMER_SECRET',
-    callbackURL: '/api/auth/twitter/callback'
-  },
-  google: {
-    clientID: process.env.GOOGLE_ID || 'APP_ID',
-    clientSecret: process.env.GOOGLE_SECRET || 'APP_SECRET',
-    callbackURL: '/api/auth/google/callback'
-  },
-  linkedin: {
-    clientID: process.env.LINKEDIN_ID || 'APP_ID',
-    clientSecret: process.env.LINKEDIN_SECRET || 'APP_SECRET',
-    callbackURL: '/api/auth/linkedin/callback'
-  },
-  github: {
-    clientID: process.env.GITHUB_ID || 'APP_ID',
-    clientSecret: process.env.GITHUB_SECRET || 'APP_SECRET',
-    callbackURL: '/api/auth/github/callback'
-  },
-  paypal: {
-    clientID: process.env.PAYPAL_ID || 'CLIENT_ID',
-    clientSecret: process.env.PAYPAL_SECRET || 'CLIENT_SECRET',
-    callbackURL: '/api/auth/paypal/callback',
-    sandbox: true
-  },
-  mailer: {
-    from: process.env.MAILER_FROM || 'MAILER_FROM',
-    options: {
-      service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
-      auth: {
-        user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
-        pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
-      }
-    }
-  },
-  seedDB: {
-    seed: process.env.MONGO_SEED === 'true' ? true : false,
-    options: {
-      logResults: process.env.MONGO_SEED_LOG_RESULTS === 'false' ? false : true,
-      seedUser: {
-        username: process.env.MONGO_SEED_USER_USERNAME || 'user',
-        provider: 'local',
-        email: process.env.MONGO_SEED_USER_EMAIL || 'user@localhost.com',
-        firstName: 'User',
-        lastName: 'Local',
-        displayName: 'User Local',
-        roles: ['user']
-      },
-      seedAdmin: {
-        username: process.env.MONGO_SEED_ADMIN_USERNAME || 'admin',
-        provider: 'local',
-        email: process.env.MONGO_SEED_ADMIN_EMAIL || 'admin@localhost.com',
-        firstName: 'Admin',
-        lastName: 'Local',
-        displayName: 'Admin Local',
-        roles: ['user', 'admin']
-      }
-    }
-  },
-  // This config is set to true during grunt coverage
-  coverage: process.env.COVERAGE || false
+    },
+    token: {
+        jwtSecret: 'siyeeisgrowing',
+        accessTokenExpireAfterDays: 5,
+        refreshTokenExpireAfterDays: 30
+    },
+    qiniu: {
+        accessKey: '5_WzphI0csKwzdgUjKEJYWYUjgCVI4sZaeT9E6PM',
+        secretKey: 'cMkTZJnXcu9gRnBdK8MLKlRXRhl0_qh-CCnV1yTG',
+        testBucketName: 'sail-test-space',
+        callbackUrl: 'http://dev.siyee.org:3000/uploaded-callback',
+        userCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&type=$(x:type)',
+        returnBody: 'name=$(fname)&hash=$(etag)&guid=$(x:id)&location=$(x:location)',
+        publicBucketUrl: 'http://7xijtn.com1.z0.glb.clouddn.com/',
+        //expire time (days)
+        expireSpan: 5,
+
+        publicBucketName: 'public-scenic-data',
+        cityImageCallbackUrl: 'http://dev.siyee.org:3000/addCityImage',
+        citiesCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)',
+
+        scenicSpotCallbackUrl: 'http://dev.siyee.org:3000/addScenicSpotImage',
+        scenicSpotCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&userId=$(x:userId)&type=$(x:type)',
+
+        scenicSpotByMobileCallbackUrl: 'http://dev.siyee.org:3000/addScenicSpotImageByMobile',
+        scenicSpotByMobileCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)&userId=$(x:userId)&type=$(x:type)',
+        //picture
+        pictureCallbackUrl: 'http://dev.siyee.org:3000/addPicture',
+        pictureCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&scenicSpotId=$(x:scenicSpotId)&pictureMessage=$(x:pictureMessage)',
+
+        bannerCallbackUrl: 'http://dev.siyee.org:3000/add-banner-image',
+        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)'
+    },
+
+    easemod: {
+        signUpUrl: 'a1.easemob.com',
+        org: 'siyee',
+        appName: 'linger',
+        //客服id，客服为本地注册的用户。且已在环信客服系统中注册为客服。
+        customerServiceId: '559242a8227b4fd97ebfcdfe',
+        feedbackServiceId: '55923f82227b4fd97ebfcdfc'
+    },
+    mongoose: {
+        debugFlag: false
+    },
+    emailAddress: {
+        host: 'smtp.ym.163.com',
+        bugSender:{
+            account:'bug-reporter@siyee.org',
+            pass: 'siyeeorg'
+        },
+        adminEmail: '609734312@qq.com,erbing22@126.com'
+    },
+    activityAndroidOff: false,
+    activityiOSOff: true,
+    activityStartDate: new Date(2015, 10, 21, 21, 29, 0),
+    activityEndDate: new Date(2015, 11, 18, 21, 0, 0),
+    currentClientVersion: '1.0.0'
 };

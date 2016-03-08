@@ -1,0 +1,134 @@
+@media (min-width: 992px) {
+    .nav-users {
+        position: fixed;
+    }
+}
+
+.remove-account-container {
+    display: inline-block;
+    position: relative;
+}
+
+.btn-remove-account {
+    top: 10px;
+    right: 10px;
+    position: absolute;
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 20px 30px;
+    margin: 50px auto;
+    box-shadow: 0px 3px 10px #C7A82B;
+}
+
+.form-signin,
+.form-signin .checkbox {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.form-signin-heading {
+    font-weight: 300;
+    color: #AFB8C1;
+    margin: -10px auto 35px auto;
+    font-size: 1.3em;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #DEDEDE;
+}
+.form-control {
+    box-shadow: none;
+}
+.form-signin .form-control:focus {
+    border: 1px solid #FFDB45;
+    box-shadow: 0 0 3px #FFDB45;
+}
+
+input[type="text"] {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.form-signin input[type=password]{
+    background: url('/modules/users/img/icon_login_code.png') no-repeat;
+    margin: 20px auto;
+    border-radius: 0;
+    background-size: 18px;
+    padding: 12px 0px 12px 45px;
+    background-position: 15px 13px;
+}
+.form-signin input[type=text]{
+    background: url('/modules/users/img/icon_login_code_account.png') no-repeat;
+    margin: 20px auto;
+    border-radius: 0;
+    background-size: 18px;
+    padding: 12px 0px 12px 45px;
+    background-position: 15px 13px;
+}
+
+.btn-login {
+    padding: 13px;
+    background: #12BE2E;
+    font-size: 1.3em;
+    text-shadow: none;
+    color: white;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+.btn-login:hover .btn-primary:focus {
+    background: green;
+}
+
+.btn-center-block {
+    display: block;
+    width: 100%;
+    margin: 12% auto 8% auto;
+}
+.login-card{
+    width:100%;
+    background-color: white;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.login-logo {
+    width: 70%;
+    border-radius: 50%;
+    margin: -100px auto 0 auto;
+    display: block;
+}
+
+body {
+    background: url('/modules/users/img/bg/login-bg.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.text-danger {
+    color: #FF5C5D;
+}

@@ -1,32 +1,13 @@
-define( [
-	"./core"
-], function( jQuery ) {
+define([
+    "./core",
+    "./traversing"
+], function (jQuery) {
 
-jQuery.fn.extend( {
+// The number of elements contained in the matched element set
+    jQuery.fn.size = function () {
+        return this.length;
+    };
 
-	bind: function( types, data, fn ) {
-		return this.on( types, null, data, fn );
-	},
-	unbind: function( types, fn ) {
-		return this.off( types, null, fn );
-	},
+    jQuery.fn.andSelf = jQuery.fn.addBack;
 
-	delegate: function( selector, types, data, fn ) {
-		return this.on( types, selector, data, fn );
-	},
-	undelegate: function( selector, types, fn ) {
-
-		// ( namespace ) or ( selector, types [, fn] )
-		return arguments.length === 1 ?
-			this.off( selector, "**" ) :
-			this.off( types, selector || "**", fn );
-	},
-	size: function() {
-		return this.length;
-	}
-} );
-
-jQuery.fn.andSelf = jQuery.fn.addBack;
-
-} );
-
+});

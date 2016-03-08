@@ -1,0 +1,38 @@
+<section data-ng-controller="BannersController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Banners</h1>
+    </div>
+    <div class="list-group">
+        <div data-ng-repeat="banner in banners" class="list-group-item">
+            <a data-ng-href="#!/banners/{{banner._id}}">
+                <span data-ng-bind="banner.title" style="font-style:normal;font-size: large"></span>
+            </a>
+            <button class="btn btn-sm btn-danger" style="float: right" ng-click="setBannerToDelete(banner)"
+                    data-toggle="modal" data-target="#deleteModal">删除
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除景点</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除景点「{{bannerToDelete.title}}」？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="remove()">确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

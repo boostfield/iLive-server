@@ -1,0 +1,293 @@
+<section data-ng-controller="TasksController" data-ng-init="getCountries();findOne();initUpdateUploadController()">
+    <div class="container">
+
+        <div class="page-header">
+            <h1>编辑任务</h1>
+        </div>
+        <div class="white-card">
+            <div class="form-group">
+                <label class="control-label" for="name">任务名称</label>
+
+                <div class="controls">
+                    <input type="text" data-ng-model="task.name" id="name" class="form-control" placeholder="Name"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <p></p>
+                        <label>所属城市:</label>
+                        <span>{{task.city.name}} . {{task.area.name}}</span>
+                    </div>
+                    <div class=" col-md-1">
+                        <a data-toggle="modal" data-target="#changeCity">
+                            <input class=" btn btn-success" type="submit" value="更改城市">
+                        </a>
+                    </div>
+                    <div class=" col-md-4">
+                        <div data-ng-show="cityChangeFlag" class="text-left text-warning">
+                            <p></p>
+                            <strong data-ng-bind="cityChangeFlag"></strong>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="changeCity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">选择新的任务城市和区域</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <select class="form-control" data-ng-model="task.country"
+                                                    ng-change="getProvinces()"
+                                                    ng-options="country.id as country.name for country in countries"
+                                                    option="country.id">
+                                                <option value="">-- 请选择国家 --</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control" data-ng-model="task.province"
+                                                    ng-change="getCities()"
+                                                    ng-options="province.id as province.name for province in provinces">
+                                                <option value="">-- 请选择省份、州 --</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control" data-ng-model="task.city"
+                                                    ng-change="getAreas()"
+                                                    ng-options="city.name for city in cities"
+                                                    >
+                                                <option value="">-- 请选择市 --</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control" data-ng-model="task.area"
+                                                    ng-options="area.name for area in areas"
+                                                    >
+                                                <option value="">-- 请选择区域 --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                            ng-click="saveProvinceAndCityAndArea(task.city,task.province,task.area)">
+                                        ok
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+
+                <label>经纬度:</label>
+                <input type="number" step="0.01" class="form-control" style="width:20%" placeholder="经度"
+                       ng-model="task.location[0]">
+                <input type="number" step="0.01" class="form-control" style="width:20%" placeholder="纬度"
+                       ng-model="task.location[1]">
+                <br/>
+
+                <div class="form-group">
+                    <label class="control-label" for="desc">任务描述:</label>
+
+                    <div class="controls">
+                        <textarea type="text" id="desc" class="form-control" style="height: 100px"
+                                  data-ng-model='task.desc' rows="4" placeholder="任务描述"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="rule">任务规则:</label>
+
+                    <div class="controls">
+                        <textarea type="text" id="rule" class="form-control" style="height: 100px"
+                                  data-ng-model='task.rule' rows="4" placeholder="任务规则"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="servicePeriod">服务时间:</label>
+
+                    <div class="controls">
+                        <input type="text" id="servicePeriod" class="form-control"
+                               data-ng-model='task.servicePeriod' placeholder="服务时间 (例：08:00--23:00)" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="bonus">任务奖励:</label>
+
+                    <div class="controls">
+                        <input type="text" data-ng-model="task.bonus" id="bonus" class="form-control"
+                               placeholder="任务奖励" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="bonus">总奖励配额:</label>
+                    <div class="controls">
+                        <input type="text" id="Quota" class="form-control"
+                               data-ng-model='task.quota' required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="bonus">已用配额:</label>
+                    <span>{{task.finishedUserCount}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="bonus">剩余奖励配额:</label>
+                    <span>{{task.restQuota}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="bonus">所属商家:</label>
+                    <span>{{task.belongToUser.displayName}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="bonus">所属执行地:</label>
+                    <span>{{task.belongToScenicSpot.name}}</span>
+                </div>
+
+                    <label for="bonus">商家名称简介（简短版）</label>
+
+                    <div>
+                        <input type="text" data-ng-model="task.briefInfo.tenantName" class="form-control"
+                               placeholder="商家名称简洁版" required>
+                    </div>
+                    <label for="bonus">奖励简介（简短版）</label>
+
+                    <div>
+                        <input type="text" data-ng-model="task.briefInfo.bonus" class="form-control"
+                               placeholder="奖励简介" required>
+                    </div>
+                    </br>
+
+                <div class="form-group">
+                    <label class="control-label" for="bonus">是否为活动任务：</label>
+                    <span>{{task.isActivityUseChinese}}</span>
+                </div>
+                </br>
+                <div class="form-group">
+                    <div class="row">
+                        <div class=" col-md-2">
+                            <p></p>
+                            <label>是否为精选任务：</label>
+                            <span>{{task.selectedByEditorUseChinese}}</span>
+                        </div>
+                        <div class=" col-md-1">
+                            <button id="setSelectedTask" class="btn btn-success" ng-click="changeSelectedByEditor()">{{setSelectedTaskButtonValue}} </button>
+                        </div>
+                    </div>
+                </div>
+                </br>
+
+                <div class="form-group">
+                    <label>任务封面:</label>
+                    <img class="thumbnail" style="height: 200px;width:250px"
+                         src="http://7xijtn.com1.z0.glb.clouddn.com/{{task.coverUrl}}" alt="图片无法显示，请速联系管理员。">
+                </div>
+                <div id="container" style="margin-top: 20px">
+                    <input type="hidden" id="domain" value="public-img.siyee.org">
+                    <input type="hidden" id="uptoken_url" value="/qiniu/task-upload-token">
+                    <button class="btn-default" id="pickfiles">
+                        <i class="glyphicon glyphicon-picture"></i>
+                        <sapn>添加图片</sapn>
+                    </button>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3" data-ng-repeat="picture in task.pictures">
+                            <a ng-click="selectImg(picture.coverUrl)" data-toggle="modal" data-target="#imageModal">
+                                <img class="thumbnail" style="height: 200px;width:250px"
+                                     src="http://7xijtn.com1.z0.glb.clouddn.com/{{picture.coverUrl}}"
+                                     alt="图片无法显示，请速联系管理员。">
+                            </a>
+
+                            <button class="button btn-sm btn-danger  pull-right"
+                                    ng-click="removeTaskPicture(picture.id)">删除
+                            </button>
+                            <button class="button btn-sm btn-info pull-left"
+                                    ng-click="setCoverUrl(picture.coverUrl, task)">设为封面
+                            </button>
+                        </div>
+                    </div>
+                    <div style="display:none" id="success" class="col-md-12">
+                        <div class="alert-success">
+                            队列全部文件处理完毕
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <table class="table table-striped table-hover text-left" style="margin-top:40px;display:none">
+                            <thead>
+                            <tr>
+                                <th class="col-md-4">Filename</th>
+                                <th class="col-md-2">Size</th>
+                                <th class="col-md-6">Detail</th>
+                            </tr>
+                            </thead>
+                            <tbody id="fsUploadProgress">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Image Modal -->
+                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="modalTitle">查看图片({{selectedImgWidth}} * {{
+                                    selectedImageHeight}})</h4>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{selectedImg}}"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="form-group">
+                    <input type="submit" value="更新信息" class="btn btn-success" ng-click="update()">
+                    <span> | </span>
+                    <button class="btn  btn-danger" data-target="#deleteTaskList" data-toggle="modal">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        <span>删除该任务</span>
+                    </button>
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                         class="modal fade"
+                         bs-popup="" ng-model="test"
+                         id="deleteTaskList" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header alert-info">
+                                    <h4 id="myModalLabel" class="modal-title">提示： 确定删除这个任务吗？</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <button aria-hidden="true" data-dismiss="modal" class="btn btn-cancel pull-right"
+                                            type="button">取消
+                                    </button>
+                                    <button class="btn btn-danger left" ng-click="remove()" data-dismiss="modal">删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

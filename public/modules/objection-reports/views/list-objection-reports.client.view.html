@@ -1,0 +1,19 @@
+<section data-ng-controller="ObjectionReportsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>举报列表</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="objectionReport in objectionReports" data-ng-href="#!/objection-reports/{{objectionReport._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="objectionReport.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="objectionReport.reporter.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="objectionReport.desc"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!objectionReports.$resolved || objectionReports.length">
+    	No Objection reports yet, why don't you <a href="/#!/objection-reports/create">create one</a>?
+    </div>
+</section>

@@ -2,7 +2,6 @@
 // Badges
 // --------------------------------------------------
 
-
 // Base class
 .badge {
   display: inline-block;
@@ -12,7 +11,7 @@
   font-weight: @badge-font-weight;
   color: @badge-color;
   line-height: @badge-line-height;
-  vertical-align: middle;
+  vertical-align: baseline;
   white-space: nowrap;
   text-align: center;
   background-color: @badge-bg;
@@ -29,8 +28,7 @@
     top: -1px;
   }
 
-  .btn-xs &,
-  .btn-group-xs > .btn & {
+  .btn-xs & {
     top: 0;
     padding: 1px 5px;
   }

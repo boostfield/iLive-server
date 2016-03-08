@@ -1,0 +1,60 @@
+<section data-ng-controller="UserFeedbacksController" data-ng-init="getUncheckedList();getCheckedList()">
+    <div class="page-header">
+        <h1>查看反馈列表</h1>
+    </div>
+
+    <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#unchecked-userFeedbacks" aria-controls="unchecked-userFeedbacks" role="tab" data-toggle="tab">
+                    未处理反馈
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#checked-userFeedbacks" aria-controls="checked-userFeedbacks" role="tab" data-toggle="tab">
+                    已通过反馈
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="unchecked-userFeedbacks">
+                <a data-ng-repeat="userFeedback in uncheckedUserFeedbacks" data-ng-href="#!/user-feedbacks/{{userFeedback._id}}"
+                   class="list-group-item">
+                    <small class="list-group-item-text">
+                        Posted on
+                        <span data-ng-bind="userFeedback.created | date:'yyyy-MM-dd'"></span>
+                        by
+                        「<span data-ng-bind="userFeedback.user.displayName"></span>」
+                    </small>
+                    <h4 class="list-group-item-heading" data-ng-bind="userFeedback.content"></h4>
+                </a>
+                <div>
+                    <pagination total-items="totalUncheckedItems" ng-change="uncheckedPageChanged()" max-size="7"
+                                items-per-page="itemsPerPage" data-ng-model="uncheckedCurrentPage"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="checked-userFeedbacks">
+                <a data-ng-repeat="userFeedback in checkedUserFeedbacks" data-ng-href="#!/user-feedbacks/{{userFeedback._id}}"
+                   class="list-group-item">
+                    <small class="list-group-item-text">
+                        Posted on
+                        <span data-ng-bind="userFeedback.created | date:'yyyy-MM-dd'"></span>
+                        by
+                        「<span data-ng-bind="userFeedback.user.displayName"></span>」
+                    </small>
+                    <h4 class="list-group-item-heading" data-ng-bind="userFeedback.content"></h4>
+                </a>
+                <div>
+                    <pagination total-items="totalCheckedItems" ng-change="checkedPageChanged()" max-size="7"
+                                items-per-page="itemsPerPage" data-ng-model="checkedCurrentPage"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

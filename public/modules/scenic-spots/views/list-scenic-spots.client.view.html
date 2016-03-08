@@ -1,0 +1,80 @@
+<section data-ng-controller="ScenicSpotsController" data-ng-init="searchByGetProvinces();find();">
+    <div class="page-header">
+        <h1>查看所有执行地</h1>
+    </div>
+    <div class="white-card">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" class="form-control" style="display: inline" placeholder="关键字"
+                       ng-model="keyword">
+            </div>
+            <button class="col-md-1 btn btn btn-success" ng-click="findByKeywords()">
+                <i class="glyphicon glyphicon-search"></i>
+                <span>查询</span>
+            </button>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-3" ng-if="provinces">
+                <select class="form-control" ng-model="query.province" ng-change="searchByGetCities()"
+                        ng-options="province.id as province.name for province in provinces">
+                    <option value="">-- 请选择省份/州 --</option>
+                </select>
+            </div>
+            <div class="col-md-3" ng-if="cities">
+                <select class="form-control" ng-model="query.city"
+                        ng-options="city.id as city.name for city in cities">
+                    <option value="city.name">-- 请选择城市/州 --</option>
+                </select>
+            </div>
+            <button class="col-md-1 btn btn btn-success" ng-if="cities" ng-click="findByCities()">
+                <i class="glyphicon glyphicon-search"></i>
+                <span>查询</span>
+            </button>
+        </div>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="scenicSpot in scenicSpots" data-ng-href="#!/scenic-spots/{{scenicSpot.id}}"
+           class="list-group-item">
+            <small class="list-group-item-text">
+                Posted on
+                <span data-ng-bind="scenicSpot.created | date:'yyyy-MM-dd'"></span>
+                by
+                「<span data-ng-bind="scenicSpot.belongToUser.displayName"></span>」
+                <span>所属城市：{{scenicSpot.city.name}}</span>
+                <span>所属省份：{{scenicSpot.province.name}}</span>
+            </small>
+            <h4 class="list-group-item-heading" data-ng-bind="scenicSpot.name"></h4>
+        </a>
+    </div>
+    <div>
+        <pagination total-items="totalItems" ng-change="pageChanged()" max-size="7"
+                    items-per-page="itemsPerPage" data-ng-model="currentPage"
+                    boundary-links="true"></pagination>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!scenicSpots.$resolved || scenicSpots.length">
+        No Scenic spots yet, why don't you <a href="/#!/scenic-spots/create">create one</a>?
+    </div>
+
+    <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+         role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Please Wait
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                             style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

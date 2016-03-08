@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Ethan Wu">
+    <title>抢奖品！</title>
+    <link href="//cdn.bootcss.com/jquery-mobile/1.4.4/jquery.mobile.min.css" rel="stylesheet">
+    <link href="/css/activity/instant-purchase.css" rel="stylesheet">
+</head>
+
+<body>
+<div data-role="page" class="bg-purchase" id="purchase-page">
+    <div class="ui-content">
+        <p class="hidden" id="accessToken" type="text"></p>
+        <button id="purchaseButton"></button>
+        <div id="activity-detail">
+            <a href="/activities/detail">活动详情</a>
+        </div>
+        <!-- 各种抢奖品的结果提示。-->
+        <div data-role="popup" class="result-popup" data-transition="flip" id="failedPopup">
+            <div class="result-content">
+                <p>你与前<span class="theme-red">215</span>名用户擦肩而过,</p>
+
+                <p>APP里还有<span class="theme-red">更多奖励</span>在等你,</p>
+
+                <p>快去看看吧!</p>
+            </div>
+            <button class="sendToApp" value="already-participated">确定</button>
+        </div>
+
+        <div data-role="popup" class="result-popup" data-transition="flip" id="successPopup">
+            <p class="reward-name"></p>
+            <div class="result-content">
+                <p>恭喜你！作为第<span class="theme-red" id="rank"></span>名参与</p>
+                <p>活动的用户，获得了<span class="theme-red reward-name" ></span> </p>
+                <p>请到玩鲜盒子中查看详情。</p>
+            </div>
+            <button class="sendToApp" value="success">确定</button>
+        </div>
+
+        <div data-role="popup" class="result-popup" data-transition="flip" id="alreadyParticipatedPopup">
+            <div class="result-content">
+                <p>你已经参加过这次活动啦,</p>
+
+                <p>进应用看看吧。</p>
+                <button class="sendToApp" value="failed">确定</button>
+            </div>
+        </div>
+
+        <div data-role="popup" data-transition="flip" id="unAuthedPopup">
+            <div role="main" class="ui-content">
+                <p>请在应用内登录后参与活动！</p>
+                <button class="sendToApp" value="notlogin">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-mobile/1.4.4/jquery.mobile.min.js"></script>
+<script>
+    $(document).ready(function () {
+        document.body.addEventListener('touchmove', function (event) {
+            event.returnValue = false;
+        }, false);
+        $("#purchaseButton").bind("tap", function () {
+//            $("#purchaseButton").addClass('pressedButton');
+            $.mobile.loading('show');
+            var token = document.getElementById('accessToken').value;
+            $.post("/activities/instant-purchase", {accessToken: token}, function (res) {
+            }).done(function (res) {
+                $.mobile.loading('hide');
+                if (res.statusCode === 0) {
+                    var rewardType = '二等奖';
+                    if(res.rank < 5){
+                        rewardType = '一等奖';
+                    }
+                    $(".reward-name").text(rewardType);
+                    $("#rank").text(res.rank);
+                    $("#successPopup").popup();
+                    $("#successPopup").popup("open");
+                } else if (res.statusCode === 70002) {
+                    $("#alreadyParticipatedPopup").popup();
+                    $("#alreadyParticipatedPopup").popup("open");
+                } else if (res.statusCode === 10100) {
+                    $("#unAuthedPopup").popup();
+                    $("#unAuthedPopup").popup("open");
+                } else {
+                    $("#failedPopup").popup();
+                    $("#failedPopup").popup("open");
+                }
+            });
+        });
+        $(".sendToApp").bind("click", function (event) {
+            var result = event.target.value;
+            if (window.webkit) {
+                window.webkit.messageHandlers.playbutton.postMessage(result);
+            } else {
+                window.JSInterface.postMessage(result);
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,97 @@
+<section data-ng-controller="ScenicSpotsController" ng-init="getCountries();initCreateUploadController()">
+    <div class="container">
+        <div class="page-header">
+            <h1>创建新执行地</h1>
+        </div>
+        <div class="white-card">
+            <label>执行地名称:</label>
+            <input data-ng-model="newScenicSpot.name" type="text" class="form-control"
+                   placeholder="执行地名称" required="true">
+            <label>城市:</label>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" data-ng-model="newScenicSpot.country" ng-change="getProvinces()"
+                            ng-options="country.id as country.name for country in countries" option="country.id">
+                        <option value="">-- 请选择国家 --</option>
+                    </select>
+                </div>
+                <div class="col-md-4" ng-if="provinces">
+                    <select class="form-control" ng-model="newScenicSpot.province" ng-change="getCities()"
+                            ng-options="province.id as province.name for province in provinces">
+                        <option value="">-- 请选择省份/州 --</option>
+                    </select>
+                </div>
+                <div class="col-md-4" ng-if="cities">
+                    <select class="form-control" ng-model="newScenicSpot.city"
+                            ng-options="city.id as city.name for city in cities">
+                        <option value="">-- 请选择城市/州 --</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+            <label>经纬度:</label>
+            <input type="number" step="0.01" class="form-control" style="width:20%" placeholder="经度( -180°~180°)"
+                   ng-model="newScenicSpot.location.lng">
+            <input type="number" step="0.01" class="form-control" style="width:20%" placeholder="纬度( -90°~90°)"
+                   ng-model="newScenicSpot.location.lat">
+            <label>执行地简介:</label>
+                <textarea type="text" class="form-control" style="height: 100px"
+                          data-ng-model="newScenicSpot.recommandReason" rows="4"></textarea>
+            <br/>
+
+            <label>电话:</label>
+            <input type="text" class="form-control" style="width:20%" placeholder="电话"
+                   ng-model="newScenicSpot.telephone">
+            <label>地址:</label>
+            <input type="text" class="form-control" style="width:40%" placeholder="地址"
+                   ng-model="newScenicSpot.address">
+            <br/>
+            <label>交通信息：</label>
+                    <textarea type="text" class="form-control" style="height: 100px"
+                              data-ng-model="newScenicSpot.detail_info.transportation_info" rows="4"></textarea>
+            <br/>
+
+            <label>小贴士:</label>
+            <button class="btn btn-primary mmm" data-toggle="modal" data-target="#myModal">
+                <i class="glyphicon glyphicon-info-sign"></i>
+                <span>添加一条小贴士</span>
+            </button>
+            <ul class="list-group" style="margin-top: 10px">
+                <li class="list-group-item repeat" ng-repeat="tip in newScenicSpot.tips">
+                    <button type="button" class="close" ng-click="deleteTip($index)">&times;</button>
+                    <label>{{tip}}</label>
+                </li>
+            </ul>
+
+            <button class="btn btn btn-success" ng-click="create();">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>创建执行地</span></button>
+            <div data-ng-show="error" class="text-danger">
+                <strong data-ng-bind="error"></strong>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">小贴士</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" data-ng-model="newTip">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addTip()">
+                                添加
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

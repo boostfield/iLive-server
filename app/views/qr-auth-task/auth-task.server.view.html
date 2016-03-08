@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>验证任务</title>
+    <link rel="stylesheet" href="/css/auth-task/main.css">
+</head>
+<body>
+<label style="display: none" id="verifyCode">{{verifyCode}}</label>
+<label style="display: none" id="taskId">{{taskId}}</label>
+
+<div class="card">
+    <h2>{{displayName}}</h2>
+    <p class="intro">任务结果？</p>
+    <div class="button-container">
+        <a id="success">成功</a>
+        <a id="failed">失败</a>
+    </div>
+
+</div>
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    function authTask(event) {
+        console.log(event.target.id);
+        var confirm = window.confirm("确定吗?");
+        if (confirm) {
+            var verifyCode = $('#verifyCode').text();
+            var taskId = $('#taskId').text();
+            var authUrl = '/tasks/' + taskId + '/grant-awards';
+            $.post(authUrl, {
+                verifyCode: verifyCode,
+                result: event.target.id
+            }).done(function (res) {
+                if (res.statusCode === 0) {
+                    window.alert('验证完成！');
+                } else {
+                    window.alert('验证失败！' + res.message);
+                }
+            });
+        }
+
+    }
+    $(document).ready(function () {
+        $('#success').bind('click', authTask);
+        $('#failed').bind('click', authTask);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>商家快捷登录</title>
+    <link rel="stylesheet" href="/css/auth-task/main.css">
+</head>
+<body>
+<div class="card">
+    <h1>商家快捷登录</h1>
+    <h2>{{displayName}}</h2>
+    <label style="display: none" id="username">{{username}}</label>
+    <input id="password" placeholder="请输入密码" type="password" value="">
+
+    <p class="error"></p>
+    <a id="login">登录</a>
+</div>
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#password').bind('focus', function (event) {
+            $('.error').hide();
+        });
+
+        $('.error').hide();
+        $('#login').bind('click', function (event) {
+            var username = $('#username').text();
+            var password = document.getElementById("password").value;
+            $.post("/auth/signin",
+                    {
+                        username: username,
+                        password: password
+                    }, function (res) {
+                    }).done(function (res) {
+                        if (res.statusCode === 0) {
+                            location.reload();
+                        }
+                        else {
+                            $('.error').text(res.message);
+                            $('.error').show();
+                        }
+                    });
+        })
+    })
+</script>
+
+</html>

@@ -1,0 +1,20 @@
+<section id="login-page" data-ng-controller="AuthenticationController">
+
+    <div class="container" data-ng-hide="authentication.user">
+
+        <form class="form-signin login-card" data-ng-submit="signin()">
+            <img src="modules/users/img/app_icon.png" class="login-logo">
+            <h3 class="form-signin-heading">玩鲜管理员/商家登录</h3>
+                <input type="text" id="username" name="username" class="form-control"
+                       data-ng-model="credentials.username" placeholder="用户名" required>
+
+            <input type="password" id="password" class="form-control" placeholder="密码"
+                   data-ng-model="credentials.password" required>
+            <div data-ng-show="error" class="text-danger text-center">
+                <strong data-ng-bind="error"></strong>
+            </div>
+            <button class=" btn-center-block btn-login" type="submit">登录</button>
+        </form>
+    </div>
+    <!-- /container -->
+</section>

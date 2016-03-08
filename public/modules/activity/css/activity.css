@@ -1,0 +1,11 @@
+@media only screen
+and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) {
+    .auth-task-btn-group {
+        margin-top: 10px;
+        text-align: center;
+    }
+}
+.form-control:focus {
+    border: 1px solid #FFDB45;
+    box-shadow: 0 0 3px #FFDB45;
+}

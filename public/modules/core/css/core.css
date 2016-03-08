@@ -1,0 +1,163 @@
+.content {
+    padding-top: 50px;
+}
+
+.undecorated-link:hover {
+    text-decoration: none;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
+
+h1 {
+    margin: 0 0 0 0;
+    border: none;
+    padding: 20px;
+    color: white;
+}
+
+.list-group-item-heading {
+    color: #767B8A;
+}
+
+.page-header {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    background-color: #343434;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.white-card {
+    background: #FFF;
+    border: none;
+    padding: 15px;
+}
+
+.info-block {
+    border-left: #FFDB45 solid 4px;
+    padding-left: 10px;
+}
+
+label {
+    color: #AFB8C1;
+}
+
+p {
+    color: #4B4D55;
+}
+
+.ng-valid.ng-dirty {
+    border-color: #FFDB45;
+}
+
+.form-control:focus {
+    border-color: #FFDB45;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background: #FFE36D;
+    background-position: 0 -15px;
+}
+
+.btn-primary {
+    background: #FFDB45;
+    border: none;
+    border-radius: 0;
+    border-radius: 200px;
+}
+
+.btn-info {
+    border: none;
+    border-radius: 0;
+    border-radius: 200px;
+}
+
+.btn {
+    text-shadow: none;
+}
+
+.btn-success:hover, .btn-success:focus {
+    background: #91E148;
+    background-position: 0 -15px;
+}
+
+.btn-success {
+    background: #73CF1E;
+    border: none;
+    border-radius: 0;
+    border-radius: 200px;
+
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background: #FF8484;
+    background-position: 0 -15px;
+}
+
+.btn-danger {
+    background: #FF5C5D;
+    border: none;
+    border-radius: 0;
+    border-radius: 200px;
+}
+
+.btn-cancel {
+    background: #CFD6DE;
+    border: none;
+    border-radius: 0;
+    border-radius: 200px;
+}
+
+.search-bar {
+    margin-top: 1.5em;
+}
+
+.search-bar .form-control {
+    display: inline;
+    width: auto;
+}
+
+input:focus {
+    border-color: #FFDB45;
+}
+
+​.text-danger {
+    color: #FF5C5D !important;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #CFD6DE;
+}
+
+.form-control:-moz-placeholder {
+    color: #CFD6DE;
+}
+
+.alert-info {
+    background: #343434;
+    font-width: 100;
+    font-size: 1.3em;
+    color: white;
+}

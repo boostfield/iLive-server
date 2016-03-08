@@ -1,0 +1,133 @@
+<section data-ng-controller="CheckQuotaRecordersController"
+         data-ng-init="getUncheckedList();getCheckedList();getDeniedList()">
+    <div class="page-header">
+        <h1>查看未审核配额请求</h1>
+    </div>
+
+    <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#unchecked-quota-recorders" aria-controls="unchecked-quota-recorders" role="tab"
+                   data-toggle="tab">
+                    未审核
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#checked-quota-recorders" aria-controls="checked-quota-recorders" role="tab" data-toggle="tab">
+                    已通过审核
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#denied-quota-recorders" aria-controls="denied-quota-recorders" role="tab" data-toggle="tab">
+                    未通过审核
+                </a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="unchecked-quota-recorders">
+                <a data-ng-repeat="quotaRecorder in uncheckedQuotaRecorders"
+                   data-ng-href="#!/quota-recorders/{{quotaRecorder.id}}"
+                   class="list-group-item">
+                    <small class="list-group-item-text">
+                        申请时间：
+                        <span data-ng-bind="quotaRecorder.created | date:'yyyy-MM-dd'"></span>
+                        by
+                        「<span data-ng-bind="quotaRecorder.fromTenant.displayName"></span>」
+                        's task:
+                    </small>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="list-group-item-heading" data-ng-bind="quotaRecorder.fromTask.name"></h4>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                            <lable class="text-right"> 申请数量：</lable>
+                        </div>
+                        <div class="col-md-1">
+                            <p class="text-left" data-ng-bind="quotaRecorder.quantity"></p>
+                        </div>
+                    </div>
+                </a>
+                <div>
+                    <pagination total-items="totalUncheckedItems" ng-change="uncheckedPageChanged()" max-size="7"
+                                items-per-page="itemsPerPage" data-ng-model="uncheckedCurrentPage"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="checked-quota-recorders">
+                <a data-ng-repeat="quotaRecorder in checkedQuotaRecorders"
+                   data-ng-href="#!/quota-recorders/{{quotaRecorder.id}}"
+                   class="list-group-item">
+                    <small class="list-group-item-text">
+                        申请时间：
+                        <span data-ng-bind="quotaRecorder.created | date:'yyyy-MM-dd'"></span>
+                        by
+                        「<span data-ng-bind="quotaRecorder.fromTenant.displayName"></span>」
+                        处理申请时间：
+                        <span data-ng-bind="quotaRecorder.handleTime | date:'yyyy-MM-dd'"></span>
+                        处理人：
+                        「<span data-ng-bind="quotaRecorder.handler.displayName"></span>」
+                    </small>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="list-group-item-heading" data-ng-bind="quotaRecorder.fromTask.name"></h4>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                            <lable class="text-right"> 申请数量：</lable>
+                        </div>
+                        <div class="col-md-1">
+                            <p class="text-left" data-ng-bind="quotaRecorder.quantity"></p>
+                        </div>
+                    </div>
+                </a>
+
+                <div>
+                    <pagination total-items="totalCheckedItems" ng-change="checkedPageChanged()" max-size="7"
+                                items-per-page="itemsPerPage" data-ng-model="checkedCurrentPage"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="denied-quota-recorders">
+                <a data-ng-repeat="quotaRecorder in deniedQuotaRecorders"
+                   data-ng-href="#!/quota-recorders/{{quotaRecorder.id}}"
+                   class="list-group-item">
+                    <small class="list-group-item-text">
+                        申请时间：
+                        <span data-ng-bind="quotaRecorder.created | date:'yyyy-MM-dd'"></span>
+                        by
+                        「<span data-ng-bind="quotaRecorder.fromTenant.displayName"></span>」
+                        处理申请时间：
+                        <span data-ng-bind="quotaRecorder.handleTime | date:'yyyy-MM-dd'"></span>
+                        处理人：
+                        「<span data-ng-bind="quotaRecorder.handler.displayName"></span>」
+                    </small>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="list-group-item-heading" data-ng-bind="quotaRecorder.fromTask.name"></h4>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                            <lable class="text-right"> 申请数量：</lable>
+                        </div>
+                        <div class="col-md-1">
+                            <p class="text-left" data-ng-bind="quotaRecorder.quantity"></p>
+                        </div>
+                    </div>
+                </a>
+                <div>
+                    <pagination total-items="totalCheckedItems" ng-change="deniedPageChanged()" max-size="7"
+                                items-per-page="itemsPerPage" data-ng-model="checkedCurrentPage"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

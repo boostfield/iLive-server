@@ -1,0 +1,93 @@
+
+
+#success, #failed {
+    border: none;
+    border-radius: 500px;
+    color: white;
+    font-size: 2em;
+    margin: 50px auto;
+    text-align: center;
+    padding: 10px 25px;
+    text-decoration: none;
+    width: 60%;
+    font-weight: 500;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
+}
+#success {
+    background: #5BE7A9;
+}
+#success:hover {
+    background-color: green;
+}
+#failed {
+    background-color: #FF6464;
+}
+.error {
+    color:red;
+    font-weight: bold;
+}
+
+#failed:hover {
+    background-color: red;
+}
+
+body {
+    background-color: #FFBD67;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    width:80%;
+    margin:20% auto;
+    border-radius: 10px;
+}
+h1 {
+    font-size: 2em;
+    color: grey;
+}
+
+h2 {
+    font-size: 2em;
+    color: #FFDB45;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0.5em;
+}
+
+input::-ms-input-placeholder{text-align: center;}
+input::-webkit-input-placeholder{text-align: center;}
+input {
+    border: 2px solid #ffdb45;
+    font-size: 2em;
+    width: 70%;
+}
+input:focus{
+    box-shadow: none;
+}
+
+#login {
+    background: #5BE7A9;
+    color: white;
+    border-radius: 300px;
+    width: 60%;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1.5em;
+    display: block;
+}
+
+#login:hover {
+    background: green;
+}
+
+.button-container{
+    margin: 10% auto;
+}
+
+.intro {
+    color: grey;
+    font-weight: bold;
+    font-size: 1.3em;
+}

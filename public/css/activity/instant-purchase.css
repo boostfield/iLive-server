@@ -1,0 +1,215 @@
+body {
+
+    font-family: '微软雅黑', "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#purchaseButton {
+    background-image: url('http://public-img.siyee.org/1218/bt_n.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    width: 250px;
+    height: 300px;
+    display: block;
+    padding: 50% auto;
+    margin: 50% auto;
+    border: none;
+    border-color: transparent;
+    border-radius: 0;
+    text-shadow: 0 0 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.bg-purchase {
+    background-image: url('http://public-img.siyee.org/1218/bg_purchase.png');
+    background-size: 100% auto;
+    width: 100%;
+}
+
+#purchaseButton:hover {
+    background-image: url('http://public-img.siyee.org/1218/bt_p.png');
+}
+
+.pressedButton {
+    background-image: url('http://public-img.siyee.org/1218/bt_p.png');
+}
+
+#accessToken {
+    display: none;
+}
+
+#alreadyParticipatedPopup,
+#failedPopup {
+    background-image: url('http://public-img.siyee.org/1218/bg_failed.png') !important;
+    background-size: 100% auto;
+    background-color: transparent !important;
+}
+
+#successPopup {
+    background-image: url('http://public-img.siyee.org/1218/bg_won.png') !important;
+    background-size: 100% auto;
+    background-color: transparent !important;
+}
+.result-content {
+    margin-top: 190px;
+}
+#successPopup>div.result-content{
+    margin-top: 80px;
+}
+
+p {
+    margin: 5px auto;
+}
+a {
+    color: white !important;
+    display: block;
+    margin-top: 20px;
+}
+
+a:hover {
+    color:white !important;
+}
+.sendToApp {
+    color: white !important;
+    display: block !important;
+    margin-top: 20px !important;
+    border-radius: 50px !important;
+    width: 60% !important;
+    border: 1px solid;
+    font-weight: 300 !important;
+    padding: 8px 20px;
+    margin: 3% auto;
+    color: #fff;
+    font-size: 1.4em;
+    white-space: nowrap;
+    background: #FFDB45 !important;
+    border-color: #FFDB45 !important;
+    text-decoration: none;
+    text-align: center;
+    font-style: normal;
+    text-transform: none;
+    margin: auto;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    text-shadow: none !important;
+
+}
+
+.result-popup {
+    border: none;
+    width: 100%;
+    text-align: center;
+    color: #282B3D;
+    width: 243px;
+    height: 351px;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border-color: transparent !important;
+
+}
+
+.theme-red {
+    color: #F69021;
+}
+
+#activity-detail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom:3%;
+    margin: 0 auto;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+#activity-detail > a {
+    color: #A8B8C2 !important;
+}
+
+h1 {
+    text-align: center;
+}
+
+.row-name {
+    width: 30%;
+    color: #A8B8C2;
+}
+
+.back{
+    margin-top:20%;
+    text-align: center;
+    color: #F69021 !important;
+}
+
+.right-claim {
+    color: #767B8A;
+    text-align: center;
+    font-weight: 300;
+    margin-top: 5%;
+}
+
+.ended-icon {
+    display: block;
+    width: 47%;
+    margin: 27% auto 15% auto;
+}
+
+.down {
+    margin-top: 10% !important;
+}
+
+.bg-count-down {
+    width: 100%;
+    text-align: center;
+    background-image: url('http://public-img.siyee.org/1218/bg_countdown.png');
+    background-size: 100% auto;
+    font-family: '微软雅黑', "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#count-down-container {
+    width: 100%;
+    text-align: center;
+}
+
+#count-down {
+    width: 100%;
+    text-align: center;
+    margin-top: 73%;
+}
+
+#count-down-label {
+    color: #A8B8C2;
+    font-size: 0.8em;
+}
+
+#count-down-day {
+    display: block;
+    color: #F69021;
+    font-size: 2.5em;
+}
+
+#count-down-time {
+    display: block;
+    color: #F8B68C;
+    font-size: 1.2em;
+}
+
+#activity-detail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom:3%;
+    margin: 0 auto;
+    color: #FFFFFF;
+    text-align: center;
+}
+#activity-detail>a {
+    color: #FFFFFF;
+}
+
+p.reward-name {
+    padding: 89px 0 0 0;
+    color: white;
+    text-shadow: none;
+}

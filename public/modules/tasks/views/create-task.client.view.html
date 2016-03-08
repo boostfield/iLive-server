@@ -1,0 +1,243 @@
+<section data-ng-controller="TasksController"
+         data-ng-init="beforeCreate();getCountries();getTenants();getAuthedScenicSpots();">
+    <div class="container">
+        <div class="page-header">
+            <h1>新任务</h1>
+        </div>
+        <div class="white-card">
+
+            <div class="form-group">
+                <label class="control-label" for="name">任务名称</label>
+
+                <div class="controls">
+                    <input type="text" data-ng-model="newTask.name" id="name" class="form-control"
+                           placeholder="任务名称" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="desc">任务描述</label>
+
+                <div class="controls">
+                        <textarea type="text" id="desc" class="form-control" style="height: 100px"
+                                  data-ng-model='newTask.desc' rows="4" placeholder="任务描述" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="desc">任务规则</label>
+
+                <div class="controls">
+                        <textarea type="text" id="rule" class="form-control" style="height: 100px"
+                                  data-ng-model='newTask.rule' rows="4" placeholder="任务规则" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="servicePeriod">服务时间</label>
+
+                <div class="controls">
+                    <input type="text" id="servicePeriod" class="form-control"
+                           data-ng-model='newTask.servicePeriod' placeholder="服务时间 (例：08:00--23:00)"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="bonus">任务奖励</label>
+
+                <div class="controls">
+                    <input type="text" data-ng-model="newTask.bonus" id="bonus" class="form-control"
+                           placeholder="任务奖励" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="bonus">奖励配额</label>
+                <!--<select class="form-control" ng-model="newTask.quota"-->
+                <!--ng-options="quota as quota for quota in bonusQuotas" required>-->
+                <!--<option value="">&#45;&#45; 请选择配额数量 &#45;&#45;</option>-->
+                <!--</select>-->
+                <div class="controls">
+                    <input type="text" data-ng-model="newTask.quota" id="quota" class="form-control"
+                           placeholder="配额" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>所属城市:</label>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-control" data-ng-model="newTask.country"
+                                ng-change="getProvinces()"
+                                ng-options="country.id as country.name for country in countries"
+                                option="country.id">
+                            <option value="">-- 请选择国家 --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="newTask.province" ng-change="getCities()"
+                                ng-options="province.id as province.name for province in provinces">
+                            <option value="">-- 请选择省份/州 --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="newTask.city" ng-change="getAreas()"
+                                ng-options="city.id as city.name for city in cities">
+                            <option value="">-- 请选择城市/州 --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="newTask.area"
+                                ng-options="area.id as area.name for area in areas">
+                            <option value="">-- 请选择城区 --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class=" col-md-4">
+                        <p></p>
+                        <label>所属执行地(设定后不可更改):</label>
+                        <span>{{choosedScenicSpotName}}</span>
+                    </div>
+                    <div class=" col-md-1">
+                        <a data-toggle="modal" data-target="#chooseTenant">
+                            <button class=" btn btn-sm btn-success" style="min-width: 90px;">
+                                选择执行地
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal fade" id="chooseTenant" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">输入关键字查询执行地：</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" style="display: inline"
+                                               placeholder="关键字"
+                                               ng-model="tenantKeyword">
+                                    </div>
+                                    <button class="col-md-2 btn btn btn-success"
+                                            ng-click="addScenicSpotByKeywords()">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                        查询
+                                    </button>
+                                </div>
+                                <div class="list-group">
+                                    <table class="table table-striped table-bordered">
+                                        <tr ng-repeat="scenicSpot in scenicSpots">
+                                            <td>{{scenicSpot.name}}</td>
+                                            <td data-ng-bind="scenicSpot.created | date:'yyyy-MM-dd'"></td>
+                                            <td>{{scenicSpot.city.name}}</td>
+                                            <td>{{scenicSpot.province.name}}</td>
+                                            <td>
+                                                <button class="button btn-sm btn-info pull-right"
+                                                        data-dismiss="modal"
+                                                        ng-click="saveScenicSpot(scenicSpot)">选择
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class=" col-md-4">
+                        <p></p>
+                        <label>所属商家(设定后不可更改):</label>
+                        <span>{{choosedTenantName}}</span>
+                    </div>
+                    <div class=" col-md-1">
+                        <a data-toggle="modal" data-target="#chooseScenicSpot">
+                            <button class=" btn btn-sm btn-success" style="min-width: 90px;">
+                                选择商家
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal fade" id="chooseScenicSpot" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">输入关键字查询商家：</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" style="display: inline"
+                                               placeholder="关键字"
+                                               ng-model="tenantKeyword">
+                                    </div>
+                                    <button class="col-md-2 btn btn btn-success"
+                                            ng-click="addTenantByKeywords()">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                        <span>查询</span>
+                                    </button>
+                                </div>
+                                <div class="list-group">
+                                    <table class="table table-striped table-bordered">
+                                        <tr ng-repeat="tenant in tenants">
+                                            <td>{{tenant.displayName}}</td>
+                                            <td>
+                                                <button class="button btn-sm btn-info pull-right"
+                                                        data-dismiss="modal"
+                                                        ng-click="saveTenant(tenant)">选择
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="bonus">任务整体简介：</label>
+            </div>
+
+            <label class="control-label" for="bonus">商家名称简介（简短版）</label>
+
+            <div class="controls">
+                <input type="text" data-ng-model="newTask.briefInfo.tenantName" class="form-control"
+                       placeholder="商家名称简洁版" required>
+            </div>
+            <label class="control-label" for="bonus">奖励简介（简短版）</label>
+
+            <div class="controls">
+                <input type="text" data-ng-model="newTask.briefInfo.bonus" class="form-control"
+                       placeholder="奖励简介" required>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="bonus">是否为活动任务</label>
+                <select class="form-control" ng-model="newTask.isActivity"
+                        ng-options="activityTaskStatus.value as activityTaskStatus.info for activityTaskStatus in allActivityTaskStatus">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" ng-click="create()" value="创建任务">
+            </div>
+            <div data-ng-show="error" class="text-danger">
+                <strong data-ng-bind="error"></strong>
+            </div>
+
+        </div>
+    </div>
+</section>

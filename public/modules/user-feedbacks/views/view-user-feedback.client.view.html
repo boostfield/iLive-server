@@ -1,0 +1,51 @@
+<section data-ng-controller="UserFeedbacksController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1>反馈详情</h1>
+	</div>
+	<div class="form-group">
+		<label>发起人:</label>
+		<span data-ng-bind="userFeedback.user.displayName"></span>
+	</div>
+	<div class="form-group">
+		<label>发起人联系方式:</label>
+		<span data-ng-bind="userFeedback.user.email"></span>
+	</div>
+	<div class="form-group">
+		<label>发起时间:</label>
+		<span data-ng-bind="userFeedback.created | date:'yyyy-MM-dd HH:mm:ss.sss'"></span>
+	</div>
+	<div class="form-group">
+		<label>反馈内容:</label>
+		<span data-ng-bind="userFeedback.content"></span>
+	</div>
+	<div class="form-group">
+		<label>处理结果:</label>
+		<span class="label label-success" ng-show="userFeedback.checked === true">已处理</span>
+		<span class="label label-default" ng-show="userFeedback.checked === false">未处理</span>
+	</div>
+	<div class="form-group" ng-show="userFeedback.handler.displayName">
+		<label>处理人:</label>
+		<span data-ng-bind="userFeedback.handler.displayName"></span>
+	</div>
+	<div class="form-group" ng-show="userFeedback.handleTime">
+		<label>处理时间:</label>
+		<span data-ng-bind="userFeedback.handleTime | date:'yyyy-MM-dd HH:mm:ss.sss'"></span>
+	</div>
+	<div class="from-group">
+		<label>处理情况、步骤:</label>
+	</div>
+	<div class="row">
+		<div class="col-md-10">
+			<input  type="text" data-ng-model="userFeedback.treatment"
+					id="bonus" class="form-control"
+					placeholder="处理情况、步骤(必填)" required>
+		</div>
+		<div class="col-md-2">
+			<button  class="btn btn-warning"
+					 ng-click="handleFeedBack();">
+				<span>处理</span>
+			</button>
+		</div>
+
+	</div>
+</section>

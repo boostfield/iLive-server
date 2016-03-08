@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
+    <title>{{plan.name}} by {{plan.belongToUser.displayName}}</title>
+    <style>
+        body {
+        background:{{bgColor}};
+        font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1,h2, p {
+            text-align: center;
+        }
+
+        h1 {
+            padding-left: 2%;
+            color: #4ebdc0;
+            font-size: 1.2em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            max-width: 82%;
+            font-weight: 500;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            border: azure 2px solid;
+            width: 15%;
+            margin: auto;
+            position: absolute;
+            top: 34%;
+            right: 7.5%
+        }
+
+        .scenicspot-container {
+            position: relative;
+            background-color: #ffffff;
+            border-radius: 1%;
+            width: 90%;
+            margin: 2% auto;
+            padding: 1% 1%;
+
+        }
+
+        .scenicspot-cover-container {
+            width: 100%;
+            padding-bottom: 75%;
+            overflow: hidden;
+            margin: auto;
+        }
+
+        .scenicspot-desc {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin: 10px 0px 0px 0px;
+        }
+
+        .content-box {
+            color: #505050;
+            font-size: 0.8em;
+        }
+
+        .share-button {
+            padding :16%;
+            margin: 12% auto;
+            width: 60%;
+            background: url("/images/share-template/{{type}}/btn_share_normal.png");
+            background-size: 100% 100%;
+            border : none;
+            display: block;
+        }
+
+        .header {
+            margin: auto;
+            background: url('/images/share-template/bg_share_title.png');
+
+            background-size: 100% 100%;
+            width: 80%;
+            padding: 9% 4% 9% 5%;
+        }
+        .scenic-name-icon {
+
+            height: 0.8em;
+            display: inline;
+            margin-left: 4%;
+        }
+        .scenic-name {
+            color: #4ebdc0;
+            text-align: left;
+            line-height: 16px;
+            font-weight: 500;
+            display: inline;
+            padding-top: -5%;
+        }
+
+        .float-girl {
+            position: absolute;
+            top: -8%;
+            left: -2.5%;
+            width: 110%;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>{{plan.name}}</h1>
+</div>
+
+{% for scenicSpot in scenicSpots %}
+<div>
+    <img class="scenic-name-icon" src="/images/share-template/scenic-icon.png">
+    <p class="scenic-name">{{scenicSpot.name}}</p>
+
+</div>
+<div class="scenicspot-container">
+    <div class="scenicspot-cover-container"
+         style="background: url('http://7xijtn.com1.z0.glb.clouddn.com/{{scenicSpot.coverUrl}}'); background-size: 100% 100%">
+    </div>
+    <div class="content-box">
+        <p class="scenicspot-desc">{{scenicSpot.detail_info.desc}}</p>
+    </div>
+    <div class="float-girl">
+        <img style="width:100%" src="/images/share-template/{{type}}/factor{{scenicSpot.maskNumber}}.png">
+    </div>
+</div>
+{% endfor %}
+<div class="scenicspot-container" style="margin-top: 10%">
+    <div class="scenicspot-cover-container"
+         style="background: url('http://7xijtn.com1.z0.glb.clouddn.com/{{lastScenicSpot.coverUrl}}'); background-size: 100% 100%">
+    </div>
+
+    <div class="float-girl">
+        <img style="width:100%" src="/images/share-template/{{type}}/factor-without-head.png">
+        {% if avatarUrl %}
+        <img class="avatar" src="http://7q5b9c.com1.z0.glb.clouddn.com/{{avatarUrl}}">
+        {% else %}
+        <img class="avatar" src="http://7q5b9c.com1.z0.glb.clouddn.com/{{plan.belongToUser.avatarUrl}}">
+        {% endif %}
+    </div>
+</div>
+<div style="margin-top: 10%">
+    <a class="share-button"
+       href="https://itunes.apple.com/us/app/liu-lian-yong-xin-xian-qing/id1018136277?l=zh&ls=1&mt=8">
+    </a>
+</div>
+
+</body>
+</html>

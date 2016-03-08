@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>活动倒计时</title>
+    <link href="//cdn.bootcss.com/jquery-mobile/1.4.4/jquery.mobile.min.css" rel="stylesheet">
+
+    <link href="/css/activity/instant-purchase.css" rel="stylesheet">
+</head>
+
+<body>
+<div data-role="page" class="bg-count-down" id="count-down-page">
+    <div id="count-down">
+        <span id="count-down-label">离活动开始还有</span>
+        <span id="count-down-day"></span>
+        <span id="count-down-time"></span>
+    </div>
+
+    <div id="activity-detail">
+        <a href="/activities/detail">活动详情</a>
+    </div>
+</div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-mobile/1.4.4/jquery.mobile.min.js"></script>
+<script>
+    $(document).ready(function () {
+        document.body.addEventListener('touchmove', function (event) {
+            event.returnValue = false;
+        }, false);
+        $.ajax({
+            url: "/activities/instant-purchase/status",
+            type: "GET",
+            success: function (response) {
+                if (response.activityStatus === 'NotBegin') {
+                    var startDate = new Date(Date.parse(response.startDate));
+                    $('#count-down').countdown(startDate)
+                            .on('update.countdown', function (event) {
+                                $('#count-down-time').html(event.strftime('%-H小时%M分%S秒'));
+                                $('#count-down-day').html(event.strftime('%-D天'))
+                            }).on('finish.countdown', function (event) {
+                                try {
+                                    if (window.webkit) {
+                                        window.webkit.messageHandlers.playbutton.postMessage('countend');
+                                    } else {
+                                        window.JSInterface.postMessage('countend');
+                                    }
+                                }catch (err){
+                                    console.log(err);
+                                }
+                                location.reload();
+                            });
+                }
+            }
+        })
+    });
+</script>
+</html>

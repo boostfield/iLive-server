@@ -1,0 +1,80 @@
+<section data-ng-controller="ActivityController" data-ng-init="before();findOne()">
+
+    <div class="container">
+        <div class="page-header">
+            <h1>{{task.name}}</h1>
+        </div>
+        <div class="white-card">
+            <div class="info-block">
+                <label class="control-label">任务描述</label>
+
+                <p>{{task.desc}}</p>
+            </div>
+            <div class="info-block">
+
+                <label class="control-label">任务规则</label>
+
+                <p>{{task.rule}}</p>
+            </div>
+            <div class="info-block">
+
+                <label class="control-label">任务奖励</label>
+
+                <p>{{task.bonus}}</p>
+            </div>
+            <div class="info-block">
+
+                <label class="control-label">剩余奖励配额/总奖励配额</label>
+
+                <p>{{task.restQuota}}/{{task.quota}}</p>
+            </div>
+            <!--<div class="col-md-2">-->
+            <!--<p></p>-->
+            <!--<a data-toggle="modal" data-target="#imageModal">-->
+            <!--<input class=" btn btn-success" type="submit" value="申请配额">-->
+            <!--</a>-->
+
+            <!--<div data-ng-show="quotaRecordFlag" class="text-left text-warning">-->
+            <!--<p></p>-->
+            <!--<strong data-ng-bind="quotaRecordFlag"></strong>-->
+            <!--</div>-->
+            <!--</div>-->
+            <hr>
+            <div class="row">
+                <div class="controls col-md-4 col-sm-10">
+                    <input type="text" placeholder="用户验证码" class="form-control" ng-model="verifyCode">
+                </div>
+                <div class="auth-task-btn-group col-md-4 col-sm-12">
+                    <button class=" btn btn-success" ng-click="grantBonus('success')" type="submit">任务成功</button>
+                    <button class=" btn btn-danger" ng-click="grantBonus('failed')" type="submit">任务失败</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-ng-show="error" class="text-danger">
+        <strong data-ng-bind="error"></strong>
+    </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalTitle">输入申请数量</h4>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                    <input type="text" placeholder="申请配额的数量" class="form-control" ng-model="quantity">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="applyForQuota()">
+                        好的
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

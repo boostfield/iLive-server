@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Ethan Wu">
+
+    <title>{{task.name}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/share.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+<img src="http://7xijtn.com1.z0.glb.clouddn.com/{{task.coverUrl}}" style="width: 100%"/>
+
+<!-- Begin page content -->
+<div class="container">
+
+    <div class="row">
+        <h1>{{task.name}}</h1>
+        <p class="city">{{task.belongToScenicSpot.name}} {{task.city.name}}</p>
+    </div>
+
+    <div class="row">
+        <div class=" col-md-2 col-xs-2 icon vertical-center">
+            <i class="fa fa-paper-plane fa-2x"></i>
+        </div><div class="col-md-2 col-xs-10 vertical-center">
+            <p class="lebel">详细地址</p>
+            <p>{{task.belongToScenicSpot.address}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class=" col-md-2 col-xs-2 icon vertical-center">
+            <i class="fa fa-clock-o fa-2x"></i>
+        </div><div class="col-md-2 col-xs-10 vertical-center">
+            <p class="lebel">服务时间</p>
+            <p>{{task.servicePeriod}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class=" col-md-2 col-xs-2 icon vertical-center">
+            <i class="fa fa-check fa-2x"></i>
+        </div><div class="col-md-2 col-xs-10 vertical-center">
+        <p class="lebel">任务描述</p>
+        <p>{{task.desc}}</p>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class=" col-md-2 col-xs-2 icon vertical-center">
+            <i class="fa fa-sticky-note fa-2x"></i>
+        </div><div class="col-md-2 col-xs-10 vertical-center">
+        <p class="lebel">任务规则</p>
+        <p>{{task.rule}}</p>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class=" col-md-2 col-xs-2 icon vertical-center">
+            <i class="fa fa-gift fa-2x"></i>
+        </div><div class="col-md-2 col-xs-10 vertical-center">
+        <p class="lebel">奖励</p>
+        <p class="bonus">{{task.bonus}}</p>
+    </div>
+    </div>
+
+    {% for picture in task.pictures %}
+    <div class="scenicspot-container">
+        <div class="scenicspot-cover-container"
+             style="background: url('http://7xijtn.com1.z0.glb.clouddn.com/{{picture.coverUrl}}'); background-size: 100% 100%">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div>
+    <span id="url-address" style="display: none">{{downloadLink}}</span>
+    <a id="download-link" class="button">
+        我也要玩(下载玩鲜APP)
+    </a>
+</div>
+<img id="wechat-mask" src="/images/share-template/wechat-mask.png">
+</body>
+<script>
+    document.getElementById("download-link").addEventListener('click', function (event){
+        if(isWeiXin()){
+            document.getElementById("wechat-mask").style.visibility = 'visible';
+        }else{
+            window.open(document.getElementById("url-address").innerText);
+        }
+    }, false);
+
+
+    function isWeiXin(){
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>
+</html>
