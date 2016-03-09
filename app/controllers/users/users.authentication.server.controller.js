@@ -19,15 +19,9 @@ var _ = require('lodash'),
  *  通过该接口创建的用户初始权限为"user"
  */
 exports.signUpWithPhone = function (req, res) {
-    // For security measurement we remove the roles from the req.body object
+    // 删除注册中的权限信息。
     delete req.body.roles;
-
-    // Init Variables
     var user = new User(req.body);
-    var checkResult = User.checkArgument(user);
-    if (checkResult.statusCode !== 0) {
-        return res.status(200).jsonp(checkResult);
-    }
 
     // 默认provider类型为local
     user.provider = 'local';
@@ -38,6 +32,11 @@ exports.signUpWithPhone = function (req, res) {
         user.displayName = '用户' +
             Math.floor((Math.random() * 100000000));
     }
+    var checkResult = User.checkArgument(user);
+    if (checkResult.statusCode !== 0) {
+        return res.status(200).jsonp(checkResult);
+    }
+
     var checkArgumentResult = User.checkArgument(user);
     if (checkArgumentResult.statusCode !== 0) {
         return res.status(200).jsonp(checkArgumentResult);

@@ -15,7 +15,7 @@ module.exports = function (app) {
     app.route('/users/:userId([A-Za-z0-9]{24})').get(users.getUserInfo);
     app.route('/users/users-brief-info').post(users.hasAuthorization(['visitor', 'user']), users.getUsersBriefInfoByUsernames);
     app.route('/users').put(users.requiresLogin, users.update);
-    app.route('/users').get(users.list);
+    app.route('/users').get(users.hasAuthorization(['admin']), users.list);
     app.route('/users/:username([0-9]{11})').get(users.requiresLogin, users.getUserInfoByUsername);
 
     // Setting up the users password api
