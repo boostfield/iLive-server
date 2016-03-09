@@ -126,120 +126,14 @@ exports.UPLOAD_IMAGE_FAILED = {
 };
 
 //friend related error
-exports.FRIEND_EXIST = {
+exports.ALREADY_FOLLOWED = {
     statusCode: 12000,
-    message: '他已经为您的好友。'
+    message: '您已经关注了他，无需再次关注。'
 };
 
-//black list.
-exports.ACTION_BLOCKED = {
-    statusCode:13000,
-    message:'没有权限。'
-};
-
-exports.UPDATE_LOCATION_ERROR = {
-    statusCode: 15000,
-    message: '更新个人位置失败。'
-};
-
-exports.SCENIC_SPOT_NOT_EXIST = {
-    statusCode: 40001,
-    message: '执行地不存在。'
-};
-
-exports.PICTURE_NOT_EXIST = {
-    statusCode: 41001,
-    message: '图片不存在。'
-};
-
-//商户验证User验证码出错
-exports.TASK_NOT_EXIST = {
-    statusCode: 50001,
-    message: '任务不存在。'
-};
-exports.TASK_ALREADY_STARRED = {
-    statusCode: 50002,
-    message: '您已经领取过任务。'
-};
-exports.TASK_ARCHIVED = {
-    statusCode: 50003,
-    message: '任务已经文成，不能取消。'
-};
-exports.TASK_NOT_STARRED = {
-    statusCode: 50004,
-    message: '你需要先领取这个任务，然后获取验证码。'
-};
-exports.TASK_NOT_RATING = {
-    statusCode: 50005,
-    message: '你需要先评分，然后查看评分。'
-};
-exports.UNSTAR_ACTIVITY_TASK_WARNING = {
-    statusCode: 50006,
-    message: '活动任务不能删除'
-};
-exports.SELECTED_TASK_ENOUGH = {
-    statusCode: 50007,
-    message: '精选任务数量已满。'
-};
-exports.TASK_LIST_STARRED_ERROR= {
-    statusCode: 51001,
-    message: '领取路线失败，请重新试一下。'
-};
-exports.TASK_LIST_ALREADY_STARRED = {
-    statusCode: 51002,
-    message: '您已经领取过这个路线。'
-};
-
-exports.TASK_LIST_ALREADY_RATED = {
-    statusCode: 51003,
-    message: '您已经评过分。'
-};
 exports.VERIFY_CODE_ERR = {
     statusCode: 54000,
     message: '验证码错误。'
-};
-
-//vote and comment.
-exports.ALREADY_VOTED = {
-    statusCode: 60000,
-    message: '已经投过票。'
-};
-exports.CREATE_COMMENT_ERROR = {
-    statusCode: 61000,
-    message: '创建评论失败。'
-};
-
-exports.COMMENT_TYPE_NOT_FOUND = {
-    statusCode:61002,
-    message: '这种类型的评论不存在。'
-};
-
-exports.COMMENT_CONTENT_REQUIRED = {
-    statusCode:61003,
-    message: '评论内容不能为空。'
-};
-
-exports.DELETE_COMMENT_ERROR = {
-    statusCode: 61001,
-    message: ' 删除评论失败。'
-};
-
-
-
-//Third party service error.
-exports.JPUSH_ERROR = {
-    statusCode: 80000,
-    message: 'JPush 错误。'
-};
-
-exports.JUHE_ERROR ={
-    statusCode:81000,
-    message:'局和数据错误，无位置信息。'
-};
-
-exports.DIANPING_ERROR ={
-    statusCode: 82000,
-    message:'大众点评错误信息：无位置信息。'
 };
 
 exports.HUANXIN_ERROR = {
@@ -283,25 +177,4 @@ exports.CONTACT_INFO_REQUIRED = {
     message: '电话号码或电子邮件不能空白。'
 };
 
-//临时活动状态码
-exports.ACTIVITY_NOT_BRGIN = {
-    statusCode: 70001,
-    message: '活动还未开始。'
-};
-exports.ACTIVITY_PARTICIPATED = {
-    statusCode: 70002,
-    message: '你已经参加过这个活动。'
-};
-exports.ACTIVITY_ENDED = {
-    statusCode: 70003,
-    message: '活动已经结束。'
-};
-exports.ACTIVITY_TASK_FULL = {
-    statusCode: 70004,
-    message: '活动任务发放数量已满。'
-};
 
-exports.BONUS_ALREADY_GOT = {
-    statusCode: 71000,
-    message: '该奖励不可重复获取！'
-};
