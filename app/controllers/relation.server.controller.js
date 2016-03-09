@@ -114,10 +114,102 @@ exports.deleteFollowing = function (req, res) {
     })
 };
 
+//获取我关注的人的列表
 exports.followingList = function (req, res) {
-    return res.jsonp({});
+    async.parallel({
+            total: function (callback) {
+                Relation.count({follower: req.params.userId}, function (err, count) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, count);
+                    }
+                });
+            },
+            users: function (callback) {
+                var pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
+                var pageNumber = req.query.pageNumber ? parseInt(req.query.pageNumber) : 0;
+                Relation.find({follower: req.params.userId}, {following: 1, _id: 0})
+                    .sort('-created')
+                    .skip(pageNumber * pageSize)
+                    .limit(pageSize)
+                    .populate('following', 'displayName _id gender level avatarUrl')
+                    .exec(function (err, relations) {
+                        if (err) {
+                            return callback(err);
+                        } else {
+                            var users = [];
+                            for (index in relations) {
+                                users.push(relations[index].following);
+                            }
+                            callback(null, users)
+                        }
+                    });
+            }
+
+        }, function (err, result) {
+            if (err) {
+                return res.status(200).send({
+                    statusCode: statusCode.DATABASE_ERROR.statusCode,
+                    message: err.message
+                });
+            } else {
+                return res.json({
+                    statusCode: statusCode.SUCCESS.statusCode,
+                    total: result.total,
+                    users: result.users
+                });
+            }
+        }
+    );
 };
 
+//获取关注我的人的列表。
 exports.followerList = function (req, res) {
-    return res.jsonp({});
+    async.parallel({
+            total: function (callback) {
+                Relation.count({following: req.params.userId}, function (err, count) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, count);
+                    }
+                });
+            },
+            users: function (callback) {
+                var pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
+                var pageNumber = req.query.pageNumber ? parseInt(req.query.pageNumber) : 0;
+                Relation.find({following: req.params.userId}, {follower: 1, _id: 0})
+                    .sort('-created')
+                    .skip(pageNumber * pageSize)
+                    .limit(pageSize)
+                    .populate('follower', 'displayName _id gender level avatarUrl')
+                    .exec(function (err, relations) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            var users = [];
+                            for (index in relations) {
+                                users.push(relations[index].follower);
+                            }
+                            callback(null, users)
+                        }
+                    });
+            }
+
+        }, function (err, result) {
+            if (err) {
+                return res.status(200).send({
+                    statusCode: statusCode.DATABASE_ERROR.statusCode,
+                    message: err.message
+                });
+            } else {
+                return res.json({
+                    statusCode: statusCode.SUCCESS.statusCode,
+                    total: result.total,
+                    users: result.users
+                });
+            }
+        }
+    );
 };
