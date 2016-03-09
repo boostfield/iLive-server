@@ -76,7 +76,7 @@ exports.TOKEN_REQUIRED = {
 
 exports.NOT_AUTHORIZED = {
     statusCode: 10103,
-    message: '权限不够。'
+    message: '权限不足，无法执行操作。'
 };
 
 //Login error.
@@ -96,7 +96,7 @@ exports.PASSWORD_INCORRECT = {
 };
 exports.LOGIN_REQUIRED = {
     statusCode: 10203,
-    message: '用户没有登陆。'
+    message: '请在登录后进行该操作。'
 };
 
 //Change password error.
@@ -108,12 +108,6 @@ exports.SMS_AUTH_ERR = {
 exports.PASSWORD_NOT_MATCH = {
     statusCode: 10301,
     message: '密码不匹配。'
-};
-
-//delete user .
-exports.TASK_BOUND = {
-    statusCode: 10400,
-    message: '删除用户警告：任务。'
 };
 
 exports.UPLOAD_AVATAR_FAILED = {
@@ -129,6 +123,12 @@ exports.UPLOAD_IMAGE_FAILED = {
 exports.ALREADY_FOLLOWED = {
     statusCode: 12000,
     message: '您已经关注了他，无需再次关注。'
+};
+
+//friend related error
+exports.NOT_FOLLOWED_YET = {
+    statusCode: 12001,
+    message: '您还未关注该用户，无法取消关注。'
 };
 
 exports.VERIFY_CODE_ERR = {

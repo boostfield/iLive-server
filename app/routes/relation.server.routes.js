@@ -7,6 +7,7 @@ module.exports = function (app) {
     // Relation Routes
     app.route('/users/:userId/following')
         .post(users.requiresLogin, relation.addFollowing)
+        .delete(users.requiresLogin, relation.deleteFollowing)
         .get(users.requiresLogin,relation.followingList);
     app.route('/users/:userId/follower')
         .get( users.requiresLogin, relation.followerList);
