@@ -64,7 +64,10 @@ exports.getUserInfo = function (req, res) {
         displayName: 1,
         avatarUrl: 1,
         gender: 1,
-        bonusPoint: 1
+        bonusPoint: 1,
+        level:1,
+        following:1,
+        follower:1
     }).exec(function (err, user) {
         if (err) {
             return res.jsonp({
