@@ -9,7 +9,7 @@ module.exports = function (app) {
     // User Routes
     var users = require('../../app/controllers/users.server.controller');
     // Setting up the users profile api
-    app.route('/users/detect-username').get(users.detectUsername);
+    app.route('/users/detect-phone-number').get(users.detectPhoneNumber);
     app.route('/users/me').get(users.requiresLogin, users.me);
     app.route('/users/search').get(users.search);
     app.route('/users/:userId([A-Za-z0-9]{24})').get(users.getUserInfo);

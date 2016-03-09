@@ -10,6 +10,7 @@ var _ = require('lodash'),
     User = mongoose.model('User'),
     config = require('../../../config/config'),
     async = require('async'),
+    util = require('../../utils/third-part.auth.js'),
     statusCode = require('../../utils/status-code');
 
 /**
@@ -75,22 +76,25 @@ exports.signUpWithPhone = function (req, res) {
 /**
  * 检测用户名是否已存在。
  */
-exports.detectUsername = function (req, res) {
-    if (!req.query.username) {
+exports.detectPhoneNumber = function (req, res) {
+    if (!req.query.phoneNumber) {
         return res.status(200).jsonp(statusCode.ARGUMENT_REQUIRED);
     }
-    User.findOne({username: req.query.username}, function (err, user) {
-        if (err) {
-            return res.status(200).jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: err.message
-            });
-        } else if (!user) {
-            return res.jsonp(statusCode.SUCCESS);
-        } else {
-            return res.jsonp(statusCode.USERNAME_TAKEN);
-        }
-    });
+    if (!util.isPhoneNumber(req.query.phoneNumber)){
+        return res.jsonp(statusCode.INVALID_PHONE_NUMBER);
+    }
+        User.findOne({phoneNumber: req.query.phoneNumber}, function (err, user) {
+            if (err) {
+                return res.status(200).jsonp({
+                    statusCode: statusCode.DATABASE_ERROR.statusCode,
+                    message: err.message
+                });
+            } else if (!user) {
+                return res.jsonp(statusCode.SUCCESS);
+            } else {
+                return res.jsonp(statusCode.PHONE_NUMBER_TAKEN);
+            }
+        });
 };
 
 /**

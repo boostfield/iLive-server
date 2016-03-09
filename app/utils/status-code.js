@@ -9,11 +9,6 @@ exports.USERNAME_INVALID = {
     message: '用户名的格式是无效的。只支持数字和字母,长度必须在6 - 32。'
 };
 
-exports.USERNAME_TAKEN = {
-    statusCode: 10001,
-    message: '用户名已被注册。请选择另一个。'
-};
-
 exports.USERNAME_EMPTY = {
     statusCode: 10002,
     message: '用户名不能为空。'

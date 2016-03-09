@@ -23,7 +23,7 @@ exports.authSms = function (phone, authCode, zone, platform, isNewVersionStatus,
         code: authCode,
         phone: phone
     });
-    if(isNewVersionStatus){
+    if (isNewVersionStatus) {
         data = querystring.stringify({
             appkey: config.smsService.newAppkey,
             zone: zone,
@@ -32,14 +32,14 @@ exports.authSms = function (phone, authCode, zone, platform, isNewVersionStatus,
         });
     }
     if (platform === 'Android') {
-        if(isNewVersionStatus) {
+        if (isNewVersionStatus) {
             data = querystring.stringify({
                 appkey: config.smsService.newAppkeyAndroid,
                 zone: zone,
                 code: authCode,
                 phone: phone
             });
-        }else {
+        } else {
             data = querystring.stringify({
                 appkey: config.smsService.appkeyAndroid,
                 zone: zone,
@@ -48,14 +48,14 @@ exports.authSms = function (phone, authCode, zone, platform, isNewVersionStatus,
             });
         }
     }
-    if(isNewVersionStatus){
+    if (isNewVersionStatus) {
         request.post({url: config.smsService.newHost, form: data}, function (err, result) {
             if (err || result === undefined) {
                 callback(err, null);
             }
             callback(null, JSON.parse(result.body).status);
         });
-    }else{
+    } else {
         request.post({url: config.smsService.host, form: data}, function (err, result) {
             if (err || result === undefined) {
                 callback(err, null);
@@ -63,4 +63,9 @@ exports.authSms = function (phone, authCode, zone, platform, isNewVersionStatus,
             callback(null, JSON.parse(result.body).status);
         });
     }
+};
+
+exports.isPhoneNumber = function (phoneNumber) {
+    var phonePattern = /^0?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+    return phonePattern.exec(phoneNumber)
 };
