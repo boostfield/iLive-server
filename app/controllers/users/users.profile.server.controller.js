@@ -87,7 +87,6 @@ exports.list = function (req, res) {
         queryObject.roles = req.query.role;
     }
 
-    //TODO:权限控制！！！
     async.parallel({
         total: function (callback) {
             User.count(queryObject, function (err, count) {
@@ -99,7 +98,7 @@ exports.list = function (req, res) {
             });
         },
         users: function (callback) {
-            var pageSize = req.query.pageSize ? req.query.pageSize : 999999;
+            var pageSize = req.query.pageSize ? req.query.pageSize : 10;
             var pageNumber = req.query.pageNumber ? req.query.pageNumber : 0;
 
             User.find(queryObject, {displayName: 1, avatarUrl: 1, gender: 1})

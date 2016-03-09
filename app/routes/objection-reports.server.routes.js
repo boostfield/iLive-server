@@ -13,7 +13,7 @@ module.exports = function(app) {
         .get(users.hasAuthorization(['admin']), objectionReports.list);
 
     app.route('/objection-reports/:objectionReportId')
-		.get(objectionReports.read)
+		.get(users.hasAuthorization(['admin']), objectionReports.read)
 		.put(users.requiresLogin, objectionReports.hasAuthorization, objectionReports.update)
 		.delete(users.requiresLogin, objectionReports.hasAuthorization, objectionReports.delete);
 

@@ -105,6 +105,14 @@ var UserSchema = new Schema({
         type: Number,
         default: 0
     },
+    level: {
+        type: Number,
+        default: 1
+    },
+    active: {
+        type: Boolean,
+        default: true
+    },
     thirdPartyAccount: [{
         accountType: {
             type: String,
