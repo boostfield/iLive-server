@@ -113,6 +113,14 @@ var UserSchema = new Schema({
         type: Boolean,
         default: true
     },
+    follower: {
+        type: Number,
+        default: 0
+    },
+    following: {
+        type: Number,
+        default: 0
+    },
     thirdPartyAccount: [{
         accountType: {
             type: String,
