@@ -230,7 +230,8 @@ exports.search = function (req, res) {
             User.find(queryObject, {
                 avatarUrl: 1,
                 gender: 1,
-                displayName: 1
+                displayName: 1,
+                level:1
             }).skip(pageSize * pageNumber)
                 .limit(pageSize)
                 .exec(function (err, users) {
