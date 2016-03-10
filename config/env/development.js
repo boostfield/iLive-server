@@ -23,10 +23,19 @@ module.exports = {
             }
         }
     },
-    token: {
-        jwtSecret: 'iliving',
-        accessTokenExpireAfterDays: 5,
-        refreshTokenExpireAfterDays: 30
+    qiniu: {
+        accessKey: 'u-pNjWIoBvrING05X0eM6cTL1speJsz18FOJbAav',
+        secretKey: 'a-BmE3tf6L4yptxhhR3R9buXTny0UX3XUIYse3vD',
+        callbackUrl: 'http://dev.goobeam.com:3000/uploaded-callback',
+        userCallbackBody: 'key=$(key)&hash=$(etag)&id=$(x:id)',
+        returnBody: 'name=$(fname)&hash=$(etag)&guid=$(x:id)&location=$(x:location)',
+        publicBucketUrl: 'http://7xrq05.com1.z0.glb.clouddn.com',
+        //expire time (days)
+        expireSpan: 5,
+        publicBucketName: 'iliving-dev',
+
+        bannerCallbackUrl: 'http://dev.siyee.org:3000/add-banner-image',
+        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)',
     },
     mongoose: {
         debugFlag: false
