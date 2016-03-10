@@ -29,12 +29,12 @@ exports.getBannerUploadToken = function (req, res) {
 
 exports.saveUserUploadImage = function (req, res) {
     var userId = req.body.id;
-    User.findOneAndUpdate({_id: userId}, {$set: {avatarUrl: req.body.key}}, function (err) {
+    var avatarUrl = config.qiniu.publicBucketUrl + '/' + req.body.key;
+    User.findByIdAndUpdate({_id: userId}, {$set: {avatarUrl: avatarUrl}}, function (err) {
         if (!err) {
             return res.jsonp({
                 statusCode: statusCode.SUCCESS.statusCode,
-                path: req.body.key,
-                type: 'avatar'
+                path: avatarUrl
             });
         } else {
             return res.jsonp({

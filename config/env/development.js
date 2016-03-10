@@ -34,7 +34,7 @@ module.exports = {
         expireSpan: 5,
         publicBucketName: 'iliving-dev',
 
-        bannerCallbackUrl: 'http://dev.siyee.org:3000/add-banner-image',
+        bannerCallbackUrl: 'http://dev.goobeam.com:3000/add-banner-image',
         bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)',
     },
     mongoose: {
