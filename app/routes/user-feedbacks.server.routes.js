@@ -7,7 +7,7 @@ module.exports = function (app) {
     // User feedbacks Routes
     app.route('/user-feedbacks')
         .get(users.hasAuthorization(['admin']), userFeedbacks.list)
-        .post(userFeedbacks.create);
+        .post(users.requiresLogin, userFeedbacks.create);
     app.route('/user-feedbacks/:userFeedbackId')
         .get( users.hasAuthorization(['admin']), userFeedbacks.read)
         .put(users.hasAuthorization(['admin']), userFeedbacks.update)

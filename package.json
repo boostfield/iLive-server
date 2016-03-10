@@ -1,8 +1,8 @@
 {
-  "name": "jackfruit-server",
-  "description": "The backend server of jackfruit.",
-  "version": "2.0.0",
-  "author": "Siyee",
+  "name": "iliving-server",
+  "description": "The backend server of iliving.",
+  "version": "1.0.0",
+  "author": "Boost Field",
   "engines": {
     "node": "0.10.x",
     "npm": "2.1.x"
@@ -32,7 +32,6 @@
     "grunt-cli": "*",
     "helmet": "^0.12.0",
     "istanbul-harmony": "*",
-    "jpush-sdk": "*",
     "jwt-simple": "^0.3.1",
     "lodash": "^3.10.1",
     "method-override": "*",
@@ -41,7 +40,6 @@
     "mongoose-unique-validator": "*",
     "morgan": "^1.6.1",
     "nodemailer": "^1.5.0",
-    "oneapm": "^1.2.14",
     "passport": "^0.3.0",
     "passport-http-bearer": "*",
     "passport-local": "*",
