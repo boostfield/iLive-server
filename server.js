@@ -28,4 +28,4 @@ require('./config/passport')();
 module.exports = app;
 
 // Logging initialization
-console.log('jackfruit server application started on port ' + config.port);
+console.log(config.app.title + ' server application started on port ' + config.port);

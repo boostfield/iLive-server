@@ -7,8 +7,6 @@ module.exports = function(app) {
 	// Objection reports Routes
 	app.route('/users/:userId/report')
 		.post(users.requiresLogin, objectionReports.create);
-    app.route('/content/report')
-        .post(users.requiresLogin, objectionReports.create);
     app.route('/objection-reports')
         .get(users.hasAuthorization(['admin']), objectionReports.list);
 
