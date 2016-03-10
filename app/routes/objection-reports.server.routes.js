@@ -5,7 +5,7 @@ module.exports = function(app) {
 	var objectionReports = require('../../app/controllers/objection-reports.server.controller');
 
 	// Objection reports Routes
-	app.route('/user/:userId/report')
+	app.route('/users/:userId/report')
 		.post(users.requiresLogin, objectionReports.create);
     app.route('/content/report')
         .post(users.requiresLogin, objectionReports.create);

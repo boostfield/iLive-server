@@ -26,15 +26,7 @@ exports.create = function (req, res) {
     objectionReport.reporter = req.user;
     objectionReport.reportType = req.body.reportType;
     objectionReport.desc = req.body.desc;
-    //如果是举报用户
-    if (req.params.userId) {
-        objectionReport.chargedUser = req.params.userId;
-
-    //如果是举报内容
-    } else {
-        objectionReport.contentType = req.body.contentType;
-        objectionReport.contentId = req.body.contentId;
-    }
+    objectionReport.chargedUser = req.params.userId;
     objectionReport.save(function (err) {
             if (err) {
                 return res.status(200).send({
