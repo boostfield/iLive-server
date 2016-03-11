@@ -118,8 +118,6 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
                     },
                     'FileUploaded': function (up, file, info) {
                         var infoObj = JSON.parse(info);
-                        console.log(infoObj.key);
-
                         if (update) {
                             $scope.banner.coverUrl = infoObj.key;
                         } else {
