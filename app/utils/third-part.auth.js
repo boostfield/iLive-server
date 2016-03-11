@@ -69,6 +69,15 @@ exports.getTencentSig = function (userName, cb) {
                     return incb(null, sig.toString());
                 }
             });
+        },
+        function(sig,incb){
+            process.exec('rm ./sig-tool/' + userName, function (err, stdout, stderr) {
+                if (err) {
+                    return incb(err);
+                } else {
+                    incb(null, sig);
+                }
+            })
         }
     ], function (err, sig) {
         if (err) {
