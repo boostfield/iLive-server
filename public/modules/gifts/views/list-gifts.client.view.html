@@ -1,0 +1,38 @@
+<section data-ng-controller="GiftsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Gifts</h1>
+    </div>
+    <div class="list-group">
+        <div data-ng-repeat="gift in gifts" class="list-group-item">
+            <a data-ng-href="#!/gifts/{{gift.id}}">
+                <span data-ng-bind="gift.name" style="font-style:normal;font-size: large"></span>
+            </a>
+            <button class="btn btn-sm btn-danger" style="float: right" ng-click="setGiftToDelete(gift)"
+                    data-toggle="modal" data-target="#deleteModal">删除
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除礼物</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除礼物「{{giftToDelete.name}}」？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="remove()">确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

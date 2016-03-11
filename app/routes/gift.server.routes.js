@@ -9,11 +9,11 @@ module.exports = function(app) {
 		.get(gifts.list)
 		.post(users.hasAuthorization(['admin']), gifts.create);
 
-	app.route('/banners/:bannerId')
+	app.route('/gifts/:giftId')
 		.get(gifts.read)
 		.put(users.hasAuthorization(['admin']), gifts.update)
 		.delete(users.hasAuthorization(['admin']), gifts.delete);
 
 	// Finish by binding the Banner middleware
-	app.param('bannerId', gifts.giftByID);
+	app.param('giftId', gifts.giftByID);
 };
