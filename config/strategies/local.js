@@ -21,12 +21,12 @@ module.exports = function () {
                 accessToken: 1,
                 displayName: 1,
                 username: 1,
-                currentLocation: 1,
                 gender: 1,
                 avatarUrl: 1,
                 password: 1,
+                tencentSig: 1,
                 salt: 1,
-                roles:1
+                roles: 1
             }).exec(function (err, user) {
                 if (err) {
                     return done(err);
