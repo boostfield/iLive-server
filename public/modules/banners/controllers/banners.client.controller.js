@@ -29,7 +29,7 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
         // Remove existing Banner
         $scope.remove = function () {
             if ($scope.bannerToDelete) {
-                $http.delete('banners/' + $scope.bannerToDelete._id).then(function (data) {
+                $http.delete('banners/' + $scope.bannerToDelete.id).then(function (data) {
                     for (var i in $scope.banners) {
                         if ($scope.banners [i] === $scope.bannerToDelete) {
                             $scope.banners.splice(i, 1);
@@ -49,7 +49,7 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
         $scope.update = function () {
             var banner = $scope.banner;
             banner.$update(function () {
-                $location.path('banners/' + banner._id);
+                $location.path('banners/' + banner.id);
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -84,7 +84,7 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
                 flash_swf_url: 'lib/plupload/js/Moxie.swf',
                 chunk_size: '4mb',
                 uptoken_url: '/qiniu/banner-image-upload-token',
-                domain: 'http://7xijtn.com1.z0.glb.clouddn.com/',
+                domain: 'http://7xrq05.com1.z0.glb.clouddn.com',
                 save_key: true,
                 max_file_size: '1024kb',
                 filters: [{title: 'Image files', extensions: 'jpg,jpeg,gif,png'}],
