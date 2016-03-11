@@ -17,7 +17,7 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
 
             // Redirect after save
             banner.$save(function (response) {
-                $location.path('banners/' + response._id);
+                $location.path('banners/' + response.id);
 
                 // Clear form fields
                 $scope.name = '';
@@ -47,11 +47,12 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
 
         // Update existing Banner
         $scope.update = function () {
-            var banner = $scope.banner;
-            banner.$update(function () {
-                $location.path('banners/' + banner.id);
-            }, function (errorResponse) {
-                $scope.error = errorResponse.data.message;
+            $http.put('banners/' + $scope.banner.id, $scope.banner).success(function (data) {
+                if (data.statusCode === 0) {
+                    window.alert('更新成功! 😊');
+                }
+            }).error(function (data) {
+                $scope.error = data.message;
             });
         };
 
@@ -75,7 +76,6 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
         };
 
         $scope.initCreateUploadController = function (update) {
-
             var uploader = Qiniu.uploader({
                 runtimes: 'html5,flash,html4',
                 browse_button: 'pickfiles',
@@ -119,8 +119,6 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
                     },
                     'FileUploaded': function (up, file, info) {
                         var infoObj = JSON.parse(info);
-                        console.log(infoObj.key);
-
                         if (update) {
                             $scope.banner.coverUrl = infoObj.key;
                         } else {

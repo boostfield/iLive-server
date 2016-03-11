@@ -2,7 +2,7 @@
 
 module.exports = {
     db: 'mongodb://jackfruitUser:siyeeojackfruit@10.169.216.93:5227/jackfruit,10.169.226.136:5227,10.170.14.118:5227',
-    port:80,
+    port: 80,
     assets: {
         lib: {
             css: [

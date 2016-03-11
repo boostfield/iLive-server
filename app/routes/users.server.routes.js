@@ -29,7 +29,7 @@ module.exports = function (app) {
     app.route('/auth/signup-with-phone').post(users.signUpWithPhone);
     app.route('/auth/signup').post(users.signUpWithPhone);
     app.route('/auth/signin').post(users.signIn);
-    app.route('/auth/signin-web').post(users.signinWeb);
+    app.route('/auth/signin-web').post(users.signIn);
     app.route('/auth/signout').get(users.signout);
     app.route('/auth/signout-web').get(users.signout);
 
