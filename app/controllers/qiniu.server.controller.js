@@ -52,9 +52,8 @@ exports.addBannerPicture = function (req, res) {
         if (!err) {
             return res.jsonp({
                 statusCode: statusCode.SUCCESS.statusCode,
-                key: req.body.key,
+                key: bannerUrl,
                 hash: req.body.hash,
-                type: 'banner'
             });
         } else {
             return res.jsonp({
