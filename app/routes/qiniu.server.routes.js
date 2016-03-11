@@ -9,4 +9,6 @@ module.exports = function (app) {
     app.route('/uploaded-callback').post(qiniu.saveUserUploadImage);
     app.route('/qiniu/banner-image-upload-token').get(qiniu.getBannerUploadToken);
     app.route('/add-banner-image').post(qiniu.addBannerPicture);
+    app.route('/qiniu/gift-image-upload-token').get(qiniu.getGiftUploadToken);
+    app.route('/add-gift-image').post(qiniu.addGiftPicture);
 };
