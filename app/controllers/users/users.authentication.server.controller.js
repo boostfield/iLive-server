@@ -43,6 +43,17 @@ exports.signUpWithPhone = function (req, res) {
         return res.status(200).jsonp(checkArgumentResult);
     }
     async.waterfall([
+            //注册腾讯sig。
+            function(cb){
+                util.getTencentSig(user.username,function(err,sig){
+                    if(err){
+                        return cb(err);
+                    }else{
+                        user.tencentSig = sig;
+                        cb(null);
+                    }
+                })
+            },
             function (cb) {
                 user.save(function (err, user) {
                     if (err) {

@@ -68,6 +68,7 @@ var UserSchema = new Schema({
     salt: {
         type: String
     },
+    tencentSig:String,
     provider: {
         type: String,
         required: 'Provider is required'
