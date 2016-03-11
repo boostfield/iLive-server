@@ -189,7 +189,7 @@ UserSchema.statics.checkArgument = function (user) {
     if (!user.password) {
         return statusCode.PASSWORD_EMPTY;
     }
-    if (user.password.length < 8 || user.password.length > 32) {
+    if (user.password.length < 6 || user.password.length > 32) {
         return statusCode.PASSWORD_INVALID;
     }
     return statusCode.SUCCESS;
