@@ -80,64 +80,35 @@ exports.detectPhoneNumber = function (req, res) {
     if (!req.query.phoneNumber) {
         return res.status(200).jsonp(statusCode.ARGUMENT_REQUIRED);
     }
-    if (!util.isPhoneNumber(req.query.phoneNumber)){
+    if (!util.isPhoneNumber(req.query.phoneNumber)) {
         return res.jsonp(statusCode.INVALID_PHONE_NUMBER);
     }
-        User.findOne({phoneNumber: req.query.phoneNumber}, function (err, user) {
-            if (err) {
-                return res.status(200).jsonp({
-                    statusCode: statusCode.DATABASE_ERROR.statusCode,
-                    message: err.message
-                });
-            } else if (!user) {
-                return res.jsonp(statusCode.SUCCESS);
-            } else {
-                return res.jsonp(statusCode.PHONE_NUMBER_TAKEN);
-            }
-        });
-};
-
-/**
- * web端的登录，不涉及jpushId的变更。
- */
-exports.signinWeb = function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-        if (err || !user) {
-            res.status(200).jsonp(info);
-        } else {
-            // Remove sensitive data before login
-            user.password = undefined;
-            user.salt = undefined;
-            req.login(user, {}, function (err) {
-                if (err) {
-                    res.status(200).jsonp(err);
-                } else {
-                    res.jsonp({
-                        statusCode: statusCode.SUCCESS.statusCode,
-                        user: user
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-};
-
-/**
- * 移动端登录，会自动刷新用户的Token，并重置jpushId。
- */
-exports.signIn = function (req, res, next) {
-    passport.authenticate('local', function (err, authenticatedUser, info) {
+    User.findOne({phoneNumber: req.query.phoneNumber}, function (err, user) {
         if (err) {
-            res.status(200).jsonp({
+            return res.status(200).jsonp({
                 statusCode: statusCode.DATABASE_ERROR.statusCode,
                 message: err.message
             });
+        } else if (!user) {
+            return res.jsonp(statusCode.SUCCESS);
+        } else {
+            return res.jsonp(statusCode.PHONE_NUMBER_TAKEN);
         }
-        if (!authenticatedUser) {
-            res.status(200).jsonp({
-                statusCode: statusCode.PASSWORD_INCORRECT.statusCode,
-                message: info.message
+    });
+};
+
+/**
+ * 登录
+ */
+exports.signIn = function (req, res, next) {
+    passport.authenticate('local', function (err, authenticatedUser) {
+        if (err) {
+            res.jsonp({
+                statusCode: statusCode.DATABASE_ERROR.statusCode,
+                message: err.message
             });
+        } else if (!authenticatedUser) {
+            res.status(200).jsonp(statusCode.PASSWORD_INCORRECT);
         } else {
             // Remove sensitive data before login
             req.login(authenticatedUser, function (err) {
@@ -147,21 +118,10 @@ exports.signIn = function (req, res, next) {
                         message: err.message
                     });
                 } else {
-                    if (req.body.jpushRegistrationId) {
-                        authenticatedUser.jpushRegistrationId = req.body.jpushRegistrationId;
-                    }
-                    authenticatedUser.save(function (err) {
-                        if (err) {
-                            return res.status(200).jsonp({
-                                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                                message: errorHandler.getErrorMessage(err)
-                            });
-                        } else {
-                            res.jsonp({
-                                statusCode: statusCode.SUCCESS.statusCode,
-                                user: authenticatedUser
-                            });
-                        }
+
+                    res.jsonp({
+                        statusCode: statusCode.SUCCESS.statusCode,
+                        user: authenticatedUser
                     });
                 }
             });

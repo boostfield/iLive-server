@@ -2,7 +2,7 @@
 
 module.exports = {
     db: 'mongodb://119.29.168.152:27017/ilive-dev',
-
+    port: 3000,
     qq: {
         clientID: 101188618,
         clientSecret: '4fdd0a816262da5905b676c8156454f3',

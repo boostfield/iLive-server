@@ -53,7 +53,7 @@ exports.addBannerPicture = function (req, res) {
             return res.jsonp({
                 statusCode: statusCode.SUCCESS.statusCode,
                 key: bannerUrl,
-                hash: req.body.hash,
+                hash: req.body.hash
             });
         } else {
             return res.jsonp({

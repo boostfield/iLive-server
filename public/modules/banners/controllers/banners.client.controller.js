@@ -17,7 +17,7 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
 
             // Redirect after save
             banner.$save(function (response) {
-                $location.path('banners/' + response._id);
+                $location.path('banners/' + response.id);
 
                 // Clear form fields
                 $scope.name = '';
@@ -75,7 +75,6 @@ angular.module('banners').controller('BannersController', ['$scope', '$statePara
         };
 
         $scope.initCreateUploadController = function (update) {
-
             var uploader = Qiniu.uploader({
                 runtimes: 'html5,flash,html4',
                 browse_button: 'pickfiles',

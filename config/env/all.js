@@ -2,7 +2,7 @@
 
 module.exports = {
     app: {
-        title: '爱直播后台管理系统',
+        title: 'iLiving-backend',
         description: '玩鲜商户操作系统',
         keywords: '玩鲜, 商户, 后台, 管理系统'
     },
