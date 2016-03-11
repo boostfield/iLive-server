@@ -44,11 +44,11 @@ exports.signUpWithPhone = function (req, res) {
     }
     async.waterfall([
             //注册腾讯sig。
-            function(cb){
-                util.getTencentSig(user.username,function(err,sig){
-                    if(err){
+            function (cb) {
+                util.getTencentSig(user.username, function (err, sig) {
+                    if (err) {
                         return cb(err);
-                    }else{
+                    } else {
                         user.tencentSig = sig;
                         cb(null);
                     }
@@ -376,14 +376,25 @@ exports.removeOAuthProvider = function (req, res, next) {
     }
 };
 
-exports.getNewTencentSig = function (req, res) {
-    util.getTencentSig(req.user.username,function(err,sig){
-        if(err){
+exports.refreshTencentSig = function (req, res) {
+    var user = req.user;
+    util.getTencentSig(user.username, function (err, sig) {
+        if (err) {
             return res.jsonp(err);
-        }else{
-            return res.jsonp({
-                statusCode: statusCode.SUCCESS.statusCode,
-                sig: sig
+        } else {
+            user.tencentSig = sig;
+            user.save(function (err, user) {
+                if (err) {
+                    return res.jsonp({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                }else{
+                    return res.jsonp({
+                        statusCode: statusCode.SUCCESS.statusCode,
+                        newSig: user.tencentSig
+                    })
+                }
             });
         }
     });
