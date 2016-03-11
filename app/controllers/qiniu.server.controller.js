@@ -58,7 +58,7 @@ exports.addBannerPicture = function (req, res) {
         } else {
             return res.jsonp({
                 statusCode: statusCode.UPLOAD_IMAGE_FAILED.statusCode,
-                key: req.body.key,
+                key: bannerUrl,
                 hash: req.body.hash,
                 message: errorHandler.getErrorMessage(err)
             });
