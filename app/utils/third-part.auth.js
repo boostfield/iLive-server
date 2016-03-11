@@ -2,6 +2,7 @@
 var config = require('../../config/config'),
     querystring = require('querystring'),
     request = require('request'),
+    fs = require('fs'),
     process = require('child_process'),
     async = require('async'),
     statusCode = require('./status-code');
