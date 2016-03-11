@@ -225,7 +225,7 @@ exports.changePasswordBySms = function (req, res) {
     if (!req.body.phone) {
         return res.status(200).send(statusCode.ARGUMENT_ERROR);
     }
-    if (!req.body.code || req.body.newPassword.length < 8 || req.body.newPassword.length > 32) {
+    if (!req.body.code || req.body.newPassword.length < 6 || req.body.newPassword.length > 32) {
         return res.status(200).send(statusCode.PASSWORD_INVALID);
     }
     var isNewVersionStatus = false;

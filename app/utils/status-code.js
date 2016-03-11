@@ -21,7 +21,7 @@ exports.PASSWORD_EMPTY = {
 
 exports.PASSWORD_INVALID = {
     statusCode: 10004,
-    message: '密码长度应该为8--32位。'
+    message: '密码长度应该为6~32位。'
 };
 exports.INVALID_PHONE_NUMBER = {
     statusCode: 10005,
