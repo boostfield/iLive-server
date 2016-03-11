@@ -19,9 +19,7 @@ exports.create = function (req, res) {
     if (!req.params.userId && !req.body.contentId) {
         return res.status(200).jsonp(statusCode.ARGUMENT_REQUIRED);
     }
-    if (!req.body.reportType) {
-        return res.status(200).jsonp(statusCode.ARGUMENT_REQUIRED);
-    }
+
     var objectionReport = new ObjectionReport();
     objectionReport.reporter = req.user;
     objectionReport.reportType = req.body.reportType;

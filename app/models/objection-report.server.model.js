@@ -23,7 +23,7 @@ var ObjectionReportSchema = new Schema({
         type: String,
         enum: ['vulgar', 'advertisement', 'political-sensitive',
             'rumor', 'illegal', 'fraud', 'harassment', 'insult', 'others'],
-        require: true
+        default: 'others'
     },
     handled: {
         type: String,
