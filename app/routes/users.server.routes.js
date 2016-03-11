@@ -24,7 +24,7 @@ module.exports = function (app) {
     app.route('/auth/reset/:token').get(users.validateResetToken);
     app.route('/auth/reset/:token').post(users.reset);
     app.route('/auth/change-password-by-sms').post(users.changePasswordBySms);
-    app.route('/auth/tencent-sig/refresh').get(users.requiresLogin, users.refreshTencentSig);
+    app.route('/auth/tencent-sig/refresh').get(users.refreshTencentSig);
 
     // Setting up the users authentication api
     app.route('/auth/signup-with-phone').post(users.signUpWithPhone);
