@@ -4,7 +4,7 @@
     </div>
     <div class="list-group">
         <div data-ng-repeat="banner in banners" class="list-group-item">
-            <a data-ng-href="#!/banners/{{banner._id}}">
+            <a data-ng-href="#!/banners/{{banner.id}}">
                 <span data-ng-bind="banner.title" style="font-style:normal;font-size: large"></span>
             </a>
             <button class="btn btn-sm btn-danger" style="float: right" ng-click="setBannerToDelete(banner)"

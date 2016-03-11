@@ -47,7 +47,8 @@ exports.saveUserUploadImage = function (req, res) {
 
 exports.addBannerPicture = function (req, res) {
     var bannerId = req.body.bannerId;
-    Banner.findOneAndUpdate({_id: bannerId}, {'coverUrl': req.body.key}, function (err) {
+    var bannerUrl = config.qiniu.publicBucketUrl + '/' + req.body.key;
+    Banner.findOneAndUpdate({_id: bannerId}, {'coverUrl': bannerUrl}, function (err) {
         if (!err) {
             return res.jsonp({
                 statusCode: statusCode.SUCCESS.statusCode,
