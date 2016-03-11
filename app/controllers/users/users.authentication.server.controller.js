@@ -364,3 +364,16 @@ exports.removeOAuthProvider = function (req, res, next) {
         });
     }
 };
+
+exports.getNewTencentSig = function (req, res) {
+    util.getTencentSig(req.user.username,function(err,sig){
+        if(err){
+            return res.jsonp(err);
+        }else{
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                sig: sig
+            });
+        }
+    });
+};

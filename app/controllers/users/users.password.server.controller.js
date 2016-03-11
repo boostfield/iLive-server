@@ -228,12 +228,8 @@ exports.changePasswordBySms = function (req, res) {
     if (!req.body.code || req.body.newPassword.length < 6 || req.body.newPassword.length > 32) {
         return res.status(200).send(statusCode.PASSWORD_INVALID);
     }
-    var isNewVersionStatus = false;
-    if (req.body.isNewVersionStatus) {
-        isNewVersionStatus = true;
-    }
 
-    smsUtil.authSms(req.body.phone, req.body.code, 86, req.body.platform, isNewVersionStatus, function (err, status) {
+    smsUtil.authSms(req.body.phone, req.body.code, 86, req.body.platform, function (err, status) {
         if (status !== 200 || err) {
             return res.status(200).jsonp(statusCode.SMS_AUTH_ERR);
         } else {

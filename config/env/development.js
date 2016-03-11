@@ -35,7 +35,12 @@ module.exports = {
         publicBucketName: 'iliving-dev',
 
         bannerCallbackUrl: 'http://dev.goobeam.com:3000/add-banner-image',
-        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)',
+        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)'
+    },
+    tencentSig: {
+        expire: 8640000,
+        sdkAppId: '1400007197',
+        accountType: '3494'
     },
     mongoose: {
         debugFlag: false

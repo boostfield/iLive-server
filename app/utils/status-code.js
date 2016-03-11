@@ -94,6 +94,11 @@ exports.LOGIN_REQUIRED = {
     message: '请在登录后进行该操作。'
 };
 
+exports.GENERATE_SIG_FAILED = {
+    statusCode: 10204,
+    message: '生成Tencent Sig 失败。'
+};
+
 //Change password error.
 exports.SMS_AUTH_ERR = {
     statusCode: 10300,
