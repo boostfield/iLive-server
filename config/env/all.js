@@ -53,6 +53,11 @@ module.exports = {
     mongoose: {
         debugFlag: false
     },
+    smsService: {
+        appkeyAndroid: '1042ba5d57787',
+        appkey: '1042af7a75d41',
+        host: 'https://webapi.sms.mob.com/sms/verify'
+    },
     clientUA: 'iLiving',
     iosClientDownloadUrl: 'https://itunes.apple.com/us/app/wan-xian-tan-suo-wei-zhi-hao/id1018136277?l=zh&ls=1&mt=8',
     androidClientDownloadUrl: 'http://www.playfresh.cn/product/playfresh.apk'
