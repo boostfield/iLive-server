@@ -28,7 +28,7 @@ exports.create = function (req, res) {
 };
 
 /**
- * Show the current Banner
+ * Show the current Gift
  */
 exports.read = function (req, res) {
     res.jsonp({
@@ -38,10 +38,10 @@ exports.read = function (req, res) {
 };
 
 /**
- * Update a Banner
+ * Update a Gift
  */
 exports.update = function (req, res) {
-    var gift = req.banner;
+    var gift = req.gift;
 
     gift = _.extend(gift, req.body);
 
@@ -51,7 +51,7 @@ exports.update = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.jsonp(banner);
+            res.jsonp(gift);
         }
     });
 };
@@ -78,7 +78,7 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
     Gift.find().sort('-created')
-        .limited(20)
+        .limit(20)
         .exec(function (err, gifts) {
         if (err) {
             return res.status(200).send({

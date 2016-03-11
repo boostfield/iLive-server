@@ -3,7 +3,7 @@
 //Banners service used to communicate Banners REST endpoints
 angular.module('gifts').factory('Gifts', ['$resource',
 	function($resource) {
-		return $resource('gifts/:GiftId', { giftId: '@id'
+		return $resource('gifts/:giftId', { giftId: '@id'
 		}, {
 			update: {
 				method: 'PUT'

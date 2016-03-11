@@ -16,7 +16,7 @@ angular.module('gifts').controller('GiftsController', ['$scope', '$stateParams',
 
             // Redirect after save
             gift.$save(function (response) {
-                $location.path('gifts/');
+                $location.path('gifts');
 
                 // Clear form fields
                 $scope.name = '';
