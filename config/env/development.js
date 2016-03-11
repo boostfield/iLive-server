@@ -35,7 +35,10 @@ module.exports = {
         publicBucketName: 'iliving-dev',
 
         bannerCallbackUrl: 'http://dev.goobeam.com:3000/add-banner-image',
-        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)'
+        bannerCallbackBody: 'key=$(key)&hash=$(etag)&userId=$(x:userId)&bannerId=$(x:bannerId)',
+
+        giftCallbackUrl: 'http://dev.goobeam.com:3000/add-gift-image',
+        giftCallbackBody: 'key=$(key)&hash=$(etag)&&giftId=$(x:giftId)'
     },
     tencentSig: {
         expire: 8640000,

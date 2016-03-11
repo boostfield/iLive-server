@@ -18,15 +18,6 @@ exports.getAvatarUploadToken = function (req, res) {
     });
 };
 
-exports.getBannerUploadToken = function (req, res) {
-    var uploadPolicy = new qiniu.rs.PutPolicy(config.qiniu.publicBucketName, config.qiniu.bannerCallbackUrl, config.qiniu.bannerCallbackBody);
-    uploadPolicy.deadline = Date.parse(new Date()) % 1000 + config.qiniu.expireSpan * 24 * 3600;
-    res.jsonp({
-        statusCode: statusCode.SUCCESS.statusCode,
-        uptoken: uploadPolicy.token()
-    });
-};
-
 exports.saveUserUploadImage = function (req, res) {
     var userId = req.body.id;
     var avatarUrl = config.qiniu.publicBucketUrl + '/' + req.body.key;
@@ -45,6 +36,15 @@ exports.saveUserUploadImage = function (req, res) {
     });
 };
 
+exports.getBannerUploadToken = function (req, res) {
+    var uploadPolicy = new qiniu.rs.PutPolicy(config.qiniu.publicBucketName, config.qiniu.bannerCallbackUrl, config.qiniu.bannerCallbackBody);
+    uploadPolicy.deadline = Date.parse(new Date()) % 1000 + config.qiniu.expireSpan * 24 * 3600;
+    res.jsonp({
+        statusCode: statusCode.SUCCESS.statusCode,
+        uptoken: uploadPolicy.token()
+    });
+};
+
 exports.addBannerPicture = function (req, res) {
     var bannerId = req.body.bannerId;
     var bannerUrl = config.qiniu.publicBucketUrl + '/' + req.body.key;
@@ -59,6 +59,35 @@ exports.addBannerPicture = function (req, res) {
             return res.jsonp({
                 statusCode: statusCode.UPLOAD_IMAGE_FAILED.statusCode,
                 key: bannerUrl,
+                hash: req.body.hash,
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+    });
+};
+
+exports.getGiftUploadToken = function (req, res) {
+    var uploadPolicy = new qiniu.rs.PutPolicy(config.qiniu.publicBucketName, config.qiniu.giftCallbackUrl, config.qiniu.giftCallbackBody);
+    uploadPolicy.deadline = Date.parse(new Date()) % 1000 + config.qiniu.expireSpan * 24 * 3600;
+    res.jsonp({
+        statusCode: statusCode.SUCCESS.statusCode,
+        uptoken: uploadPolicy.token()
+    });
+};
+exports.addGiftPicture = function (req, res) {
+    var giftId = req.body.giftId;
+    var giftUrl = config.qiniu.publicBucketUrl + '/' + req.body.key;
+    Banner.findOneAndUpdate({_id: giftId}, {'coverUrl': giftUrl}, function (err) {
+        if (!err) {
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                key: giftUrl,
+                hash: req.body.hash
+            });
+        } else {
+            return res.jsonp({
+                statusCode: statusCode.UPLOAD_IMAGE_FAILED.statusCode,
+                key: giftUrl,
                 hash: req.body.hash,
                 message: errorHandler.getErrorMessage(err)
             });
