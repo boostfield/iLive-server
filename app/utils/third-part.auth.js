@@ -66,7 +66,7 @@ exports.getTencentSig = function (userName, cb) {
                 if (err) {
                     return incb(err);
                 } else {
-                    return incb(null, sig);
+                    return incb(null, sig.toString());
                 }
             });
         }
