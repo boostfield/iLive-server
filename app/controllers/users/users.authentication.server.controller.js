@@ -55,6 +55,18 @@ exports.signUpWithPhone = function (req, res) {
                 })
             },
             function (cb) {
+                Counter.getNextSequenc('userCounter', function (err, count) {
+                    if (err) {
+                        cb(statusCode.DATABASE_ERROR);
+                    }
+                    else {
+                        user.livingRoomId = count;
+                        user.livingRoomStatus = false;
+                        cb(null);
+                    }
+                });
+            },
+            function (cb) {
                 user.save(function (err, user) {
                     if (err) {
                         cb({
@@ -389,7 +401,7 @@ exports.refreshTencentSig = function (req, res) {
                         statusCode: statusCode.DATABASE_ERROR.statusCode,
                         message: errorHandler.getErrorMessage(err)
                     });
-                }else{
+                } else {
                     return res.jsonp({
                         statusCode: statusCode.SUCCESS.statusCode,
                         newSig: user.tencentSig

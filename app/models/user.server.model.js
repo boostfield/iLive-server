@@ -101,7 +101,8 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-
+    livingRoomId: Number,
+    livingRoomStatus: Boolean,
     bonusPoint: {
         type: Number,
         default: 0
