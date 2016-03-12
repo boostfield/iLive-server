@@ -25,6 +25,8 @@ module.exports = function () {
                 avatarUrl: 1,
                 password: 1,
                 tencentSig: 1,
+                livingRoomStatus: 1,
+                livingRoomId: 1,
                 salt: 1,
                 roles: 1
             }).exec(function (err, user) {
