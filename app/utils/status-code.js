@@ -119,16 +119,19 @@ exports.UPLOAD_IMAGE_FAILED = {
     message: '上传图片失败。'
 };
 
-//friend related error
 exports.ALREADY_FOLLOWED = {
     statusCode: 12000,
     message: '您已经关注了他，无需再次关注。'
 };
 
-//friend related error
 exports.NOT_FOLLOWED_YET = {
     statusCode: 12001,
     message: '您还未关注该用户，无法取消关注。'
+};
+
+exports.USER_LOCKED = {
+    statusCode: 30000,
+    message: '用户被封禁，无法开始直播。'
 };
 
 exports.VERIFY_CODE_ERR = {
