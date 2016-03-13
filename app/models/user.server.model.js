@@ -78,7 +78,7 @@ var UserSchema = new Schema({
     roles: {
         type: [{
             type: String,
-            enum: 'user editor admin super-admin tenant'.split(' ')
+            enum: 'user editor admin super-admin'.split(' ')
         }],
         default: ['user']
     },
@@ -99,6 +99,7 @@ var UserSchema = new Schema({
     },
     livingRoomId: Number,
     livingRoomStatus: Boolean,
+    chatRoomId: Number,
     bonusPoint: {
         type: Number,
         default: 0
@@ -111,9 +112,9 @@ var UserSchema = new Schema({
         type: Boolean,
         default: true
     },
-    lockExpired:{
-        type:Date,
-        default:Date.now()
+    lockExpired: {
+        type: Date,
+        default: Date.now()
     },
     follower: {
         type: Number,
