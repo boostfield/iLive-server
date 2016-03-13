@@ -10,13 +10,21 @@ var mongoose = require('mongoose'),
     async = require('async'),
     _ = require('lodash');
 
+
+function hasLivingPermission(user) {
+    if (user.lockExpired > new Date()) {
+        return false;
+    } else {
+        return true;
+    }
+}
 exports.startLiving = function (req, res) {
     if (!req.body.chatRoomId) {
         return res.status(200).jsonp(statusCode.ARGUMENT_REQUIRED);
     }
 
     var user = req.user;
-    if (user.active === false) {
+    if (!hasLivingPermission(user)) {
         return res.status(200).jsonp(statusCode.USER_LOCKED);
     }
     user.livingRoomStatus = true;
