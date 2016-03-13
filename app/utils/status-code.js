@@ -139,11 +139,6 @@ exports.VERIFY_CODE_ERR = {
     message: '验证码错误。'
 };
 
-exports.HUANXIN_ERROR = {
-    statusCode: 83000,
-    message: '环信出错了。'
-};
-
 //Server Error
 exports.DATABASE_ERROR = {
     statusCode: 90000,

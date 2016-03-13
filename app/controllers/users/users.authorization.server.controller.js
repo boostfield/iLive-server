@@ -43,6 +43,72 @@ exports.addPermission = function (req, res) {
         }
     });
 };
+
+/**
+ * 封禁用户，仅涉及视频直播权限。
+ * @param req
+ * @param res
+ */
+exports.lockUser = function (req, res) {
+
+    var expireDate = new Date();
+    var lockType =  parseInt(req.body.lockPeriod);
+    switch (lockType) {
+        //case 0 永久封禁
+        case 0:
+            expireDate.setFullYear(expireDate.getFullYear() + 100);
+            console.log(expireDate);
+            break;
+        //case 1 封禁1天
+        case 1:
+            expireDate.setDate(expireDate.getDate() + 1);
+            break;
+        //case 2 封禁1周
+        case 2:
+            expireDate.setDate(expireDate.getDate() + 7);
+            break;
+        //case 2 封禁1个月
+        case 3:
+            expireDate.setMonth(expireDate.getMonth() + 1);
+            break;
+        //默认封禁1天
+        default:
+            expireDate.setDate(expireDate.getDate() + 1);
+            break;
+    }
+
+    User.findByIdAndUpdate(req.params.userId, {lockExpired: expireDate}, function (err, user) {
+        if (err) {
+            return res.status(200).jsonp({
+                statusCode: statusCode.DATABASE_ERROR.statusCode,
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                lockExpired: user.lockExpired
+            });
+        }
+    });
+};
+
+exports.unlockUser = function (req, res) {
+    var expireDate = new Date();
+    User.findByIdAndUpdate(req.params.userId, {lockExpired: expireDate}, function (err, user) {
+        if (err) {
+            return res.status(200).jsonp({
+                statusCode: statusCode.DATABASE_ERROR.statusCode,
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                lockExpired: user.lockExpired
+            });
+        }
+    });
+};
+
 /**
  * User authorizations routing middleware
  */

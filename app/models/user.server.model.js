@@ -88,12 +88,8 @@ var UserSchema = new Schema({
         default: 'unknown',
         enum: ['male', 'female', 'unknown']
     },
-    hobby: String,
-    job: String,
     birthday: Date,
     selfDescription: String,
-    school: String,
-    bloodType: String,
     updated: {
         type: Date
     },
@@ -114,6 +110,10 @@ var UserSchema = new Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    lockExpired:{
+        type:Date,
+        default:Date.now()
     },
     follower: {
         type: Number,

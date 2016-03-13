@@ -44,6 +44,9 @@ module.exports = function (app) {
     app.route('/auth/3rd-party/login').post(users.thirdPartySignin);
 
     //administration interface.
+    app.route('/users/:userId([A-Za-z0-9]{24})/lock').post(users.hasAuthorization(['admin']), users.lockUser);
+    app.route('/users/:userId([A-Za-z0-9]{24})/unlock').post(users.hasAuthorization(['admin']), users.unlockUser);
+
     app.route('/change-password-by-admin').post(users.hasAuthorization(['super-admin']), users.changePasswordByAdmin);
     app.route('/add-permission').post(users.hasAuthorization(['super-admin']), users.addPermission);
 };
