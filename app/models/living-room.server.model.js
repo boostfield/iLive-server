@@ -17,17 +17,24 @@ var LivingRoomSchema = new Schema({
         type: Number,
         required: true
     },
-    startTime: {
-        type: Date
+    chatRoomId: {
+        type: Numner,
+        required: true
     },
-    lastHeartBeatTime:{
-        type:Date
+    startTime: {
+        type: Date,
+        default: Date.now
+    },
+    lastHeartBeatTime: {
+        type: Date,
+        default: Date.now
     },
     endTime: {
         type: Date
     },
     voteTimes: {
-        type: Numeber
+        type: Numeber,
+        default: 0
     },
     lastPeriod: {
         type: Number
@@ -36,7 +43,8 @@ var LivingRoomSchema = new Schema({
         type: Number
     },
     giftValue: {
-        type: Number
+        type: Number,
+        default: 0
     },
     userInRoom: [{
         id: {

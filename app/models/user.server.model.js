@@ -98,8 +98,6 @@ var UserSchema = new Schema({
         default: Date.now
     },
     livingRoomId: Number,
-    livingRoomStatus: Boolean,
-    chatRoomId: Number,
     bonusPoint: {
         type: Number,
         default: 0

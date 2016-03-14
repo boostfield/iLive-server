@@ -8,6 +8,8 @@ var mongoose = require('mongoose'),
     config = require('../../config/config'),
     statusCode = require('../utils/status-code'),
     User = mongoose.model('User'),
+    LivingRoom = mongoose.model('LivingRoom'),
+    LivingRecord = mongoose.model('LivingRecord'),
     async = require('async'),
     _ = require('lodash');
 
@@ -28,16 +30,30 @@ exports.startLiving = function (req, res) {
     if (!hasLivingPermission(user)) {
         return res.status(200).jsonp(statusCode.USER_LOCKED);
     }
-    user.livingRoomStatus = true;
-    user.chatRoomId = req.body.chatRoomId;
-    user.save(function (err) {
+    async.waterfall([function (cb) {
+        var livingRoom = new LivingRoom({
+            livingRoomName: req.body.livingRoomName,
+            livingRoomId: user.livingRoomId,
+            chatRoomId: req.body.chatRoomId
+        });
+        livingRoom.save(function (err, livingRoom) {
+            if (err) {
+                return cb({
+                    statusCode: statusCode.DATABASE_ERROR.statusCode,
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                cb(null, livingRoom);
+            }
+        });
+    }], function (err, livingRoom) {
         if (err) {
-            return res.jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: errorHandler.getErrorMessage(err)
-            });
+            return res.jsonp(err);
         } else {
-            return res.jsonp(statusCode.SUCCESS);
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                livingRoom: livingRoom
+            });
         }
     });
 };
