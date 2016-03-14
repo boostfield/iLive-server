@@ -7,21 +7,24 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * 直播记录，用来归档直播历史。
+ * Living Room Schema,用来记录当前正在直播的直播间。
  */
-var LivingRecordSchema = new Schema({
+var LivingRoomSchema = new Schema({
     livingRoomName: {
         type: String
     },
     livingRoomId: {
-        type:Number,
-        required:true
+        type: Number,
+        required: true
     },
     startTime: {
+        type: Date
+    },
+    lastHeartBeatTime:{
         type:Date
     },
     endTime: {
-        type:Date
+        type: Date
     },
     voteTimes: {
         type: Numeber
@@ -34,10 +37,17 @@ var LivingRecordSchema = new Schema({
     },
     giftValue: {
         type: Number
-    }
+    },
+    userInRoom: [{
+        id: {
+            type: Schema.ObjectId,
+            ref: 'User'
+        },
+        avatarUrl: String
+    }]
 });
 
-LivingRecordSchema.options.toJSON = {
+LivingRoomSchema.options.toJSON = {
     transform: function (doc, ret) {
         ret.id = ret._id;
         delete ret._id;
@@ -45,4 +55,4 @@ LivingRecordSchema.options.toJSON = {
     }
 };
 
-mongoose.model('LivingRecord', LivingRecordSchema);
+mongoose.model('LivingRoom', LivingRoomSchema);
