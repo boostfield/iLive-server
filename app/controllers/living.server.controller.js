@@ -146,12 +146,9 @@ exports.stopLiving = function (req, res) {
 };
 
 exports.livingRoomList = function (req, res) {
-    var queryObject = {isDeleted: {$ne: true}};
-    queryObject.livingRoomStatus = true;
-
     async.parallel({
         total: function (callback) {
-            User.count(queryObject, function (err, count) {
+            LivingRoom.count(function (err, count) {
                 if (err) {
                     callback(err);
                 } else {
@@ -159,18 +156,19 @@ exports.livingRoomList = function (req, res) {
                 }
             });
         },
-        users: function (callback) {
+        livingRooms: function (callback) {
             var pageSize = req.query.pageSize ? req.query.pageSize : 999999;
             var pageNumber = req.query.pageNumber ? req.query.pageNumber : 0;
 
-            User.find(queryObject, {displayName: 1, avatarUrl: 1, gender: 1, chatRoomId: 1, livingRoomId: 1})
+            LivingRoom.find()
+                .populate('hostId', 'displayName avatarUrl')
                 .skip(pageSize * pageNumber)
                 .limit(pageSize)
-                .exec(function (err, users) {
+                .exec(function (err, livingRooms) {
                     if (err) {
                         callback(err);
                     } else {
-                        callback(null, users);
+                        callback(null, livingRooms);
                     }
                 });
         }
@@ -184,7 +182,7 @@ exports.livingRoomList = function (req, res) {
             return res.json({
                 statusCode: statusCode.SUCCESS.statusCode,
                 total: result.total,
-                users: result.users
+                livingRooms: result.livingRooms
             });
         }
     });
