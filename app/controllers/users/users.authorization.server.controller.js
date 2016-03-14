@@ -15,7 +15,7 @@ var _ = require('lodash'),
  * Require login routing middleware
  */
 exports.requiresLogin = function (req, res, next) {
-    if (!req.isAuthenticated()) {
+    if (!req.user) {
         return res.status(200).jsonp(statusCode.LOGIN_REQUIRED);
     }
     next();
