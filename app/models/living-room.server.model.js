@@ -18,7 +18,7 @@ var LivingRoomSchema = new Schema({
         required: true
     },
     chatRoomId: {
-        type: Numner,
+        type: Number,
         required: true
     },
     startTime: {
@@ -33,7 +33,7 @@ var LivingRoomSchema = new Schema({
         type: Date
     },
     voteTimes: {
-        type: Numeber,
+        type: Number,
         default: 0
     },
     lastPeriod: {

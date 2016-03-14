@@ -14,17 +14,17 @@ var LivingRecordSchema = new Schema({
         type: String
     },
     livingRoomId: {
-        type:Number,
-        required:true
+        type: Number,
+        required: true
     },
     startTime: {
-        type:Date
+        type: Date
     },
     endTime: {
-        type:Date
+        type: Date
     },
     voteTimes: {
-        type: Numeber
+        type: Number
     },
     lastPeriod: {
         type: Number
