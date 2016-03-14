@@ -133,7 +133,10 @@ exports.USER_LOCKED = {
     statusCode: 30000,
     message: '用户被封禁，无法开始直播。'
 };
-
+exports.LIVING_IS_ON = {
+    statusCode: 30001,
+    message: '您的直播间未正常关闭，请稍后再试。'
+}
 exports.VERIFY_CODE_ERR = {
     statusCode: 54000,
     message: '验证码错误。'

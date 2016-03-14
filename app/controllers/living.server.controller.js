@@ -30,24 +30,39 @@ exports.startLiving = function (req, res) {
     if (!hasLivingPermission(user)) {
         return res.status(200).jsonp(statusCode.USER_LOCKED);
     }
-    async.waterfall([function (cb) {
-        var livingRoom = new LivingRoom({
-            hostId: user.id,
-            livingRoomName: req.body.livingRoomName,
-            livingRoomId: user.livingRoomId,
-            chatRoomId: req.body.chatRoomId
-        });
-        livingRoom.save(function (err, livingRoom) {
-            if (err) {
-                return cb({
-                    statusCode: statusCode.DATABASE_ERROR.statusCode,
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                cb(null, livingRoom);
-            }
-        });
-    }], function (err, livingRoom) {
+    async.waterfall([
+        function (cb) {
+            LivingRoom.count({hostId: user.id}, function (err, count) {
+                if (err) {
+                    return cb({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else if (count >= 1) {
+                    cb(statusCode.LIVING_IS_ON);
+                } else {
+                    cb(null);
+                }
+            })
+        },
+        function (cb) {
+            var livingRoom = new LivingRoom({
+                hostId: user.id,
+                livingRoomName: req.body.livingRoomName,
+                livingRoomId: user.livingRoomId,
+                chatRoomId: req.body.chatRoomId
+            });
+            livingRoom.save(function (err, livingRoom) {
+                if (err) {
+                    return cb({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    cb(null, livingRoom);
+                }
+            });
+        }], function (err, livingRoom) {
         if (err) {
             return res.jsonp(err);
         } else {
