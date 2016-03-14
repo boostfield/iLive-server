@@ -76,15 +76,71 @@ exports.startLiving = function (req, res) {
 
 exports.stopLiving = function (req, res) {
     var user = req.user;
-    user.livingRoomStatus = false;
-    user.save(function (err) {
-        if (err) {
-            return res.jsonp({
-                statusCode: statusCode.DATABASE_ERROR.statusCode,
-                message: errorHandler.getErrorMessage(err)
+    if (!hasLivingPermission(user)) {
+        return res.status(200).jsonp(statusCode.USER_LOCKED);
+    }
+
+    async.waterfall([
+        //查看所要关闭的直播间是否存在
+        function (cb) {
+            LivingRoom.findOne({hostId: user.id}, function (err, livingRoom) {
+                if (err) {
+                    return cb({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else if (!livingRoom) {
+                    cb(statusCode.LIVING_IS_OFF);
+                } else {
+                    cb(null, livingRoom);
+                }
+            })
+        },
+        //整理直播信息并归档至livingRecord
+        function (livingRoom, cb) {
+            var livingRecord = new LivingRecord({
+                hostId: livingRoom.hostId,
+                livingRoomName: livingRoom.livingRoomName,
+                livingRoomId: user.livingRoomId,
+                startTime: livingRoom.startTime,
+                voteTimes: livingRoom.voteTimes,
+                watchTimes: livingRoom.watchTimes,
+                giftValue: livingRoom.giftValue
             });
+            livingRecord.endTime = new Date();
+            livingRecord.lastPeriod = livingRecord.endTime - livingRecord.startTime;
+            livingRecord.save(function (err, livingRecord) {
+                if (err) {
+                    cb({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    cb(null, livingRecord, livingRoom.id);
+                }
+            });
+        },
+        //删除当前直播信息
+        function (livingRecord, livingRoomId, cb) {
+            LivingRoom.remove({_id: livingRoomId}, function (err) {
+                if (err) {
+                    cb({
+                        statusCode: statusCode.DATABASE_ERROR.statusCode,
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    cb(null, livingRecord)
+                }
+            })
+        }
+    ], function (err, livingRecord) {
+        if (err) {
+            return res.jsonp(err);
         } else {
-            return res.jsonp(statusCode.SUCCESS);
+            return res.jsonp({
+                statusCode: statusCode.SUCCESS.statusCode,
+                livingRecord: livingRecord
+            });
         }
     });
 };

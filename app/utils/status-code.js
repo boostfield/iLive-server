@@ -136,7 +136,11 @@ exports.USER_LOCKED = {
 exports.LIVING_IS_ON = {
     statusCode: 30001,
     message: '您的直播间未正常关闭，请稍后再试。'
-}
+};
+exports.LIVING_IS_OFF = {
+    statusCode: 30002,
+    message: '您的直播间已关闭，无需再次退出。'
+};
 exports.VERIFY_CODE_ERR = {
     statusCode: 54000,
     message: '验证码错误。'

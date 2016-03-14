@@ -10,12 +10,12 @@ var mongoose = require('mongoose'),
  * Living Room Schema,用来记录当前正在直播的直播间。
  */
 var LivingRoomSchema = new Schema({
-    livingRoomName: {
-        type: String
-    },
     hostId:{
         type: Schema.ObjectId,
         ref: 'User'
+    },
+    livingRoomName: {
+        type: String
     },
     livingRoomId: {
         type: Number,
@@ -44,7 +44,8 @@ var LivingRoomSchema = new Schema({
         type: Number
     },
     watchTimes: {
-        type: Number
+        type: Number,
+        default: 0
     },
     giftValue: {
         type: Number,
