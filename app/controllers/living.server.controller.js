@@ -32,6 +32,7 @@ exports.startLiving = function (req, res) {
     }
     async.waterfall([function (cb) {
         var livingRoom = new LivingRoom({
+            hostId: user.id,
             livingRoomName: req.body.livingRoomName,
             livingRoomId: user.livingRoomId,
             chatRoomId: req.body.chatRoomId

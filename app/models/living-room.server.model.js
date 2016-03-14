@@ -13,6 +13,10 @@ var LivingRoomSchema = new Schema({
     livingRoomName: {
         type: String
     },
+    hostId:{
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     livingRoomId: {
         type: Number,
         required: true
