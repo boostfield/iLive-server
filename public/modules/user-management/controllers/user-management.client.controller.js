@@ -12,7 +12,6 @@ angular.module('user-management').controller('UserManagementController', ['$scop
         $scope.userCount = 0;
         $scope.itemsPerPage = 10;
         $scope.currentPage = 1;
-        $scope.serchTenantFlag = 'false';
 
         //创建的景点的分页
         $scope.createdScenicSpotsCount = 0;
@@ -46,8 +45,8 @@ angular.module('user-management').controller('UserManagementController', ['$scop
             });
         };
 
-        $scope.getAllTenants = function () {
-            $http.get('/tenants', {
+        $scope.getAllUsers = function () {
+            $http.get('/users', {
                 params: {
                     pageSize: $scope.itemsPerPage,
                     pageNumber: $scope.currentPage - 1
@@ -61,11 +60,7 @@ angular.module('user-management').controller('UserManagementController', ['$scop
 
         $scope.findOne = function () {
             $http.get('users/' + $stateParams.userId).success(function (data) {
-                $scope.selectedUser = data.userInfo;
-                $scope.newDisplayName = $scope.selectedUser.displayName;
-                $http.get('/tasks?belongToUser=' + $scope.selectedUser.id).success(function (data) {
-                    $scope.tasks = data.tasks;
-                });
+                $scope.selectedUser = data.user;
             });
         };
 
@@ -180,9 +175,9 @@ angular.module('user-management').controller('UserManagementController', ['$scop
             }
 
         };
-        $scope.findTenantByKeywords = function () {
+        $scope.findUsersByKeywords = function () {
             $scope.serchTenantFlag = 'true';
-            $http.get('tenants/search?&keyword=' + $scope.keyword, {
+            $http.get('users/search?&keyword=' + $scope.keyword, {
                 params: {
                     pageSize: $scope.itemsPerPage,
                     pageNumber: 0

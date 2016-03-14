@@ -3323,7 +3323,6 @@ angular.module('user-management').config(['$stateProvider',
 
 'use strict';
 
-// Scenic spots controller
 angular.module('user-management').controller('UserManagementController', ['$scope', '$stateParams',
     '$location', '$http', 'Authentication',
     function ($scope, $stateParams, $location, $http, Authentication) {
@@ -3386,9 +3385,7 @@ angular.module('user-management').controller('UserManagementController', ['$scop
             $http.get('users/' + $stateParams.userId).success(function (data) {
                 $scope.selectedUser = data.userInfo;
                 $scope.newDisplayName = $scope.selectedUser.displayName;
-                $http.get('/tasks?belongToUser=' + $scope.selectedUser.id).success(function (data) {
-                    $scope.tasks = data.tasks;
-                });
+
             });
         };
 
@@ -3408,43 +3405,6 @@ angular.module('user-management').controller('UserManagementController', ['$scop
             });
         };
 
-        $scope.findCreatedScenicSpots = function () {
-            $http.get('users/' + $stateParams.userId + '/created-scenicspots').success(function (data) {
-                $scope.createdScenicSpots = data.scenicSpots;
-                $scope.createdScenicSpotsCount = data.total;
-            });
-        };
-
-        $scope.createdScenicSpotsPageChange = function () {
-            $http.get('users/' + $stateParams.userId + '/created-scenicspots', {
-                params: {
-                    pageSize: $scope.itemsPerPage,
-                    pageNumber: $scope.createdSpotsCurrentPage - 1
-                }
-            }).success(function (data) {
-                $scope.createdScenicSpots = data.scenicSpots;
-                $scope.createdScenicSpotsCount = data.total;
-            });
-        };
-
-        $scope.findUpdatedScenicSpots = function () {
-            $http.get('users/' + $stateParams.userId + '/updated-scenicspots').success(function (data) {
-                $scope.updatedScenicSpots = data.scenicSpots;
-                $scope.updatedScenicSpotsCount = data.total;
-            });
-        };
-
-        $scope.updatedScenicSpotsPageChange = function () {
-            $http.get('users/' + $stateParams.userId + '/updated-scenicspots', {
-                params: {
-                    pageSize: $scope.itemsPerPage,
-                    pageNumber: $scope.updatedSpotsCurrentPage - 1
-                }
-            }).success(function (data) {
-                $scope.updatedScenicSpots = data.scenicSpots;
-                $scope.updatedScenicSpotsCount = data.total;
-            });
-        };
 
         $scope.tenantPageChanged = function () {
             if ($scope.serchTenantFlag === 'true') {
