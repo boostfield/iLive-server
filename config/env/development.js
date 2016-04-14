@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    db: 'mongodb://119.29.168.152:27017/ilive-dev',
+    db: 'mongodb://120.25.204.174:27017/ilive-dev',
     port: 3000,
     qq: {
         clientID: 101188618,
