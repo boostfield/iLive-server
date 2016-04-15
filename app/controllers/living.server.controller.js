@@ -27,9 +27,9 @@ exports.startLiving = function (req, res) {
     }
 
     var user = req.user;
-    if (!hasLivingPermission(user)) {
-        return res.status(200).jsonp(statusCode.USER_LOCKED);
-    }
+    //if (!hasLivingPermission(user)) {
+    //    return res.status(200).jsonp(statusCode.USER_LOCKED);
+    //}
     async.waterfall([
         function (cb) {
             LivingRoom.count({hostId: user.id}, function (err, count) {
