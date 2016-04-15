@@ -5,7 +5,7 @@ module.exports = function(app) {
 	var living = require('../../app/controllers/living.server.controller');
 
 	// Banners Routes
-	app.route('/living/start').post(living.startLiving);
-	app.route('/living/stop').post(living.stopLiving);
+	app.route('/living/start').post(users.requiresLogin, living.startLiving);
+	app.route('/living/stop').post(users.requiresLogin, living.stopLiving);
 	app.route('/livings').get(living.livingRoomList);
 };
